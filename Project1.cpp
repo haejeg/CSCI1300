@@ -202,8 +202,8 @@ int main() {
                 //in the if statement right? this can be a good check to make sure that you're actually reading this yay
                     if (!(method >= 1 && method <= 4)) { 
                         cout<<"Invalid encryption choice"<<endl;
-                        cin.clear(); //clears the user input box, so there isn't an inf loop
-                        while (cin.get() != '\n'); /*This while loop reads and discards characters from the input buffer. If this isn't there, "Invalid encryption choice" will-
+                        cin.clear(); //clears the user input box
+                        cin.ignore(10000, '\n'); /*This reads and discards characters from the input buffer. If this isn't there, "Invalid encryption choice" will-
                         print however many characters there are in the string for the error check (kinda wack that this happens actually), there's probably a better solution to
                         this..*/
                         cin>>method;
@@ -241,7 +241,7 @@ int main() {
             default:
                 wrongoption = true; //set boolean wrongoption = true. Now it won't print the menu navigation thing in the front before reprompting the user!
                 cin.clear(); //refer to line 204 if ur confused
-                while (cin.get() != '\n'); //refer to line 205 if ur confused
+                cin.ignore(10000, '\n'); //refer to line 205 if ur confused
                 cout<<"Invalid input"<<endl;
                 cin>>option; //reprompt user
                 break;
