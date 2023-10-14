@@ -1,6 +1,7 @@
 #include <iostream>
 using namespace std;
 //made by Danny! education purposes only, don't copy and paste, instead look at why the code works and create your own solution (although it'll be similar anyways lmao)
+//do not read this unless absolutely necessary. View Project1Psuedocode.py for the psuedocode version
 
 char shiftChar(char letter, int shift) {
     if (letter >= 'a' && letter <= 'z') { //check to see if the letter is inbetween lowercase a & lowercase z
