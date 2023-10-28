@@ -36,7 +36,7 @@ bool countFilter(string email_file, string keyword_threshold[][2], int keyword_c
     }
 
     while (file >> word) {
-        //WHAT DOES THIS EVEN MEAN?! internet search for next 3 lines
+        //basically erases symbols/punctuation i cant believe this is the thing that was fuckin me up the whole time lmaoo
         for (size_t i = 0; i < word.length(); i++) {
             if (ispunct(word[i])) {
                 word.erase(i--, 1);
