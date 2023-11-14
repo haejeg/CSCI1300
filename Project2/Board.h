@@ -27,34 +27,38 @@ struct Tile
     string tile_type;
 };
 
+struct Player {
+    string name;
+    int position;
+};
 
 class Board
 {
-private:
-    const static int _BOARD_SIZE = 83;
-    Tile _tiles[_BOARD_SIZE];
-    const static int _MAX_CANDY_STORE = 3;
-    int _candy_store_position[_MAX_CANDY_STORE];
-    int _candy_store_count;
-    int _player_position;
+    private:
+        const static int _BOARD_SIZE = 83;
+        Tile _tiles[_BOARD_SIZE];
+        const static int _MAX_CANDY_STORE = 3;
+        int _candy_store_position[_MAX_CANDY_STORE];
+        int _candy_store_count;
+        int _player_position;
 
-public:
-    Board();
+    public:
+        Board();
 
-    void resetBoard();
-    void displayTile(int);
-    void displayBoard();
+        void resetBoard();
+        void displayTile(int);
+        void displayBoard();
 
-    bool setPlayerPosition(int);
+        bool setPlayerPosition(int);
 
-    int getBoardSize() const;
-    int getCandyStoreCount() const;
-    int getPlayerPosition() const;
+        int getBoardSize() const;
+        int getCandyStoreCount() const;
+        int getPlayerPosition() const;
 
-    bool addCandyStore(int);
-    bool isPositionCandyStore(int); 
+        bool addCandyStore(int);
+        bool isPositionCandyStore(int); 
 
-    bool movePlayer(int tile_to_move_forward);
+        bool movePlayer(int tile_to_move_forward);
 };
 
 #endif

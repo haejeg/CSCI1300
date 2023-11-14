@@ -1,0 +1,12 @@
+Enchanted Elixir|Infuses stamina with vitality, adding 15 units|Stamina|15|Stamina|20
+Venomous Vapor|Drains opponent's stamina by 15 units (moderate)|Stamina|-15|Strategic|22
+Mystic Muffin|Bestows magical stamina increase of 20 units|Stamina|20|Stamina|30
+Bubbly Barrier|Shields against moderate poison attacks|Stamina|2|Defensive|25
+Radiant Ruby|Provides immunity to mild poison candy|Stamina|1|Defensive|12
+Noxious Nectar|Unleashes a strong poison on opponents, decreasing stamina by 20 units|Stamina|-20|Strategic|28
+Blazing Bonbon|Ignites stamina with fiery energy, granting a boost of 12 units|Stamina|12|Stamina|18
+Shadow Shifter|Obscures opponent's stamina, reducing it by 18 units (intense)|Stamina|-18|Strategic|25
+Frosty Frosting|Chills stamina, causing a reduction of 15 units|Stamina|-15|Strategic|22
+Reflective Shield|Reflects poison attacks, preventing stamina loss|Stamina|1|Defensive|30
+Mirage Mint|Creates illusions to confuse opponents, protecting against moderate poison|Stamina|2|Defensive|28
+Thunder Thistle|Electrifies opponents, draining stamina by 25 units|Stamina|-25|Strategic|35

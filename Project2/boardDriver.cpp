@@ -30,19 +30,19 @@ void generateCandyStores(Board board, int candy_stores[]) {
 }
 
 void updateBoard(Board board) {
-    system("cls");
     board.displayBoard();
 }
 
 int main()
 {
-    Board board;
-    // updateBoard(board);
+    Board board, board2;
     int candy_stores[3] = {0, 28, 55};
-    // updateBoard(board);
+    updateBoard(board);
     generateCandyStores(board, candy_stores);
     for (int i = 0; i < 3; i++) {
         board.displayTile(candy_stores[i]);
     }
+    
+    board.setPlayerPosition(candy_stores[i]);
     return 0;
 }
