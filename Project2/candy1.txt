@@ -1,0 +1,3 @@
+Bubblegum Blast|Protects against mild poison candy|other|1|immunity|15
+Sparkling Sapphire|Protects against mild and moderate poison candies|other|2|immunity|20
+Caramel Comet|Protects against all poison candies|other|3|immunity|25
