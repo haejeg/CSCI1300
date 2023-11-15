@@ -19,6 +19,7 @@ struct Candy
     string description;
     double price;
     string candy_type;
+    int effect;
 };
 
 struct Tile
