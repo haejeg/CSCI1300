@@ -28,9 +28,22 @@ struct Tile
     string tile_type;
 };
 
+// this will included all needed values that a player needs to have
 struct Player {
     string name;
+    string character;
     int position;
+    int gold;
+    vector<Candy> candies;
+    int stamina;
+};
+
+struct Character {
+    string name;
+    int position;
+    int gold;
+    vector<Candy> candies;
+    int stamina;
 };
 
 class Board
@@ -41,6 +54,7 @@ class Board
         const static int _MAX_CANDY_STORE = 3;
         int _candy_store_position[_MAX_CANDY_STORE];
         int _candy_store_count;
+        // process of mind. initially, just an int, make that into an array of int, then vector of int, then vector of Player structs
         vector<Player> _player_position;
 
     public:

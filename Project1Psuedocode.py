@@ -1,4 +1,4 @@
-# Pseudocode for Encrypt and Decrypt Program
+# Pseudocode for Encrypt and Decrypt Program - converted from C++ to py
 
 # Function to shift a character by a specified amount
 function shiftChar(character, shift_amount):

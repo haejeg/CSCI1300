@@ -23,6 +23,7 @@ void Board::resetBoard()
         _tiles[i] = new_tile;
     }
     new_tile = {ORANGE, "regular tile"};
+    _tiles[0] = new_tile;
     _tiles[_BOARD_SIZE - 1] = new_tile;
 
     _candy_store_count = 0;
@@ -40,6 +41,7 @@ void Board::resetBoard()
 
 void Board::displayTile(int position)
 {
+    // is there a player on this position? - initial false
     bool playerActive = false;
     if (position < 0 || position >= _BOARD_SIZE)
     {
@@ -52,10 +54,12 @@ void Board::displayTile(int position)
     {
         if (position == _player_position.at(i).position)
         {
-            cout << " " << i ;
+            // if there is a player then print player by their player id
+            cout << " " << i + 1 ; // i + 1 because it's weird having player 0 and doesn't make much sense
             playerActive = true;
         }
     }
+    // if player is not active print two more spaces (this is for spacing reasons)
     if (!playerActive) {
         cout << "  ";
     }
@@ -92,8 +96,9 @@ void Board::displayBoard()
         }
     }
     cout << count << " " << _player_position.size() << endl;
-    readjustment = (count - 1) * 2;
+    readjustment = ((count - 1) * 2) + 5;
 
+    cout << ORANGE << "Start" << RESET;
     // First horizontal segment
     for (int i = 0; i <= 23; i++)
     {

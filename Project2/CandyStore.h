@@ -7,8 +7,6 @@
 
 using namespace std;
 
-
-
 class CandyStore
 {
     private:
