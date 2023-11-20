@@ -41,25 +41,26 @@ class Board
         const static int _MAX_CANDY_STORE = 3;
         int _candy_store_position[_MAX_CANDY_STORE];
         int _candy_store_count;
-        int _player_position;
+        vector<Player> _player_position;
 
     public:
         Board();
+        Board(int, vector<Player>);
 
         void resetBoard();
         void displayTile(int);
         void displayBoard();
 
-        bool setPlayerPosition(int);
+        bool setPlayerPosition(int, int);
 
         int getBoardSize() const;
         int getCandyStoreCount() const;
-        int getPlayerPosition() const;
+        int getPlayerPosition(int) const;
 
         bool addCandyStore(int);
         bool isPositionCandyStore(int); 
 
-        bool movePlayer(int tile_to_move_forward);
+        bool movePlayer(int tile_to_move_forward, int);
 };
 
 #endif

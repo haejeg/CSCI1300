@@ -37,7 +37,6 @@ void generateCards() {
     }
 }
 
-
 //Read candy data from file (Hw7)
 vector<Candy> readCandy(string file_name, vector<Candy> candies) {
     ifstream fin(file_name);
@@ -68,74 +67,49 @@ vector<Candy> readCandy(string file_name, vector<Candy> candies) {
         }
     }
     // Check
-    cout<<"Candy list read successfully"<<endl;
     return candies;
 }
 
 //Generate candy stores and add them to the board
 void generateCandyStores(Board board, CandyStore candy_stores[]) {
+    // seed random according to time
     srand((int) time(0));
+    // set candy store positions & have checks so values correspond with the colors
     do {
         candy_stores[0].setCandyStorePosition(rand() % 27);
     }
     while (candy_stores[0].getCandyStorePosition() % 3 != 0 || candy_stores[0].getCandyStorePosition() == 0);
-    cout<<"Final candy store 1: "<<candy_stores[0].getCandyStorePosition()<<endl;
     do {
         candy_stores[1].setCandyStorePosition(rand() % 27 + 28);
     }
     while ((candy_stores[1].getCandyStorePosition() -  1) % 3 != 0);
-    cout<<"Final candy store 2: "<<candy_stores[1].getCandyStorePosition()<<endl;
     do {
         candy_stores[2].setCandyStorePosition(rand() % 27 + 55);
     }
     while ((candy_stores[2].getCandyStorePosition() - 2) % 3 != 0 || candy_stores[2].getCandyStorePosition() >= 83);
-    cout<<"Final candy store 3: "<<candy_stores[2].getCandyStorePosition()<<endl;
 
     for (int i = 0; i < 3; i++) {
         board.addCandyStore(candy_stores[i].getCandyStorePosition());
     }
-    cout<<"Candy stores generated successfully"<<endl;
-}
-
-void updateBoard(Board board) {
-    board.displayBoard();
 }
 
 int main()
 {
-    Board board, board2;
+    vector<Player> characterSelections;
+    // declare board object with player count
+    Board board(characterSelections.size(), characterSelections);
+    // initialize candy stores and give them default values (not really necessary, i just chose 0 28 and 54 because of the limit squares)
     CandyStore candy_stores[3] = {CandyStore(0, "Magenta"), CandyStore(28, "Green"), CandyStore(54, "Blue")};
-    cout<<"Initializing candy from data.."<<endl;
     vector<Candy> candies;
+    // read candies and store them in candies array
     candies = readCandy("candylist.txt", candies);
-    cout<<"Generating candy stores.."<<endl;
+    // generate candy stores
     generateCandyStores(board, candy_stores);
-    cout<<"Adding candies to candy stores.."<<endl;
+    // add candies to the candy stores using fillcandy function
     for (int i = 0; i < 3; i++) {
         candy_stores[i].fillCandy(candies);
     }
     
-
-
-    cout<<"WOW"<<candy_stores[0].getCandyAmount()<<endl;
-
-    for (int i = 0; i < 3; i++) {
-        board.displayTile(candy_stores[i].getCandyStorePosition());
-        board.setPlayerPosition(candy_stores[i].getCandyStorePosition());
-        candy_stores[i].displayCandies();
-    }
-
-    // for (int i = 0; i < 83; i++) {
-    //     int storeCount = 0;
-    //     board.movePlayer(1);
-    //     if (board.isPositionCandyStore(i)) {
-            
-    //         cout<<storeCount<<endl;
-    //         storeCount++;
-    //     }
-    // }
-
-    updateBoard(board);
-    
+    board.displayBoard();
     return 0;
 }

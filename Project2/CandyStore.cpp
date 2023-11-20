@@ -85,6 +85,5 @@ bool CandyStore::fillCandy(vector<Candy> candies) {
         _inventory.push_back(candies.at(randIdx));
         _candy_amount++;
     }
-    cout<<"Candies added successfully"<<endl;
     return true;
 }
