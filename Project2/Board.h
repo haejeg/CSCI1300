@@ -2,6 +2,7 @@
 #define BOARD_H
 
 #include <iostream>
+#include "Candy.h"
 #include <vector>
 #define RED "\033[;41m"     /* Red */
 #define GREEN "\033[;42m"   /* Green */
@@ -12,15 +13,6 @@
 #define RESET "\033[0m"
 
 using namespace std;
-
-struct Candy
-{
-    string name;
-    string description;
-    double price;
-    string candy_type;
-    int effect;
-};
 
 struct Tile
 {

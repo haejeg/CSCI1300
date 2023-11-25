@@ -1,12 +1,5 @@
 #include "CandyStore.h"
-
-string toLowerCase(string str) {
-    int len = str.length();
-    for (int i = 0; i < len; i++) {
-        str[i] = tolower(str[i]);
-    }
-    return str;
-}
+#include "Utilities.h"
 
 // Constructors
 CandyStore::CandyStore()
@@ -44,7 +37,7 @@ void CandyStore::displayCandies() {
 
     cout<<"Candies present in store "<<_candy_store_name<<" are "<<endl;
     for (int i = 0; i < _candy_amount; i++) {
-        cout<<_inventory.at(i).name<<endl;
+        cout<<_inventory.at(i).getName()<<endl;
     }
 }
 
@@ -57,9 +50,8 @@ void CandyStore::setCandyStorePosition(int position)
 bool CandyStore::removeCandy(string name) {
     int lastIdx = 0;
     bool res = false;
-
     for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
-        if (toLowerCase(_inventory[i].name) == toLowerCase(name)) {
+        if (toLowerCase(_inventory[i].getName()) == toLowerCase(name)) {
             lastIdx = i;
             res = true;
         }
@@ -67,10 +59,10 @@ bool CandyStore::removeCandy(string name) {
 
     if (res) {
         _candy_amount--;
-        _inventory[lastIdx].name = "";
-        _inventory[lastIdx].description = "";
-        _inventory[lastIdx].price = 0;
-        _inventory[lastIdx].candy_type = "";
+        _inventory[lastIdx].setName("");
+        _inventory[lastIdx].setDescription("");
+        _inventory[lastIdx].setPrice(0.0);
+        _inventory[lastIdx].setCandyType("");
     }
 
     return res;

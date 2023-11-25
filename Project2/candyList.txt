@@ -10,3 +10,14 @@ Frosty Frosting|Chills stamina, causing a reduction of 15 units|-15|Poison|22
 Reflective Shield|Reflects poison attacks, preventing stamina loss|1|Counter|30
 Mirage Mint|Creates illusions to confuse opponents, protecting against moderate poison|2|Counter|28
 Thunder Thistle|Electrifies opponents, draining stamina by 25 units|-25|Thunder|35
+Thunderstrike Toffee|Strikes opponents with thunderous power, reducing stamina by 30 units|-30|Thunder|40
+Whimsical Waffle|Infuses stamina with whimsy, adding 10 units|10|Stamina|15
+Reflective Rose|Reflects opponent's attack, preventing stamina loss|1|Counter|32
+Spectral Sugar|Enhances stamina with spectral energy, adding 18 units|18|Stamina|25
+Amethyst Amulet|Protects against intense poison attacks|3|Defensive|28
+Inferno Infusion|Infuses stamina with infernal power, adding 25 units|25|Stamina|38
+Arctic Aura|Creates a chilling aura, reducing opponent's stamina by 22 units|-22|Ice|30
+Gelatinous Guardian|Summons a gelatinous guardian to absorb attacks, reducing stamina loss|2|Defensive|40
+Dazzling Dewdrop|Dazzles opponents with a radiant dewdrop, reducing stamina by 12 units|-12|Light|18
+Viper's Venom|Infuses stamina with venom, adding 12 units|12|Stamina|20
+Illusionary Ice|Creates an illusionary ice barrier, reducing opponent's stamina by 15 units|-15|Ice|25

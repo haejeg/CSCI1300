@@ -96,9 +96,10 @@ void Board::displayBoard()
         }
     }
     cout << count << " " << _player_position.size() << endl;
-    readjustment = ((count - 1) * 2) + 5;
+    readjustment = (count - 1) * 2 + (_player_position.size() - count) * 2 + 5;
 
     cout << ORANGE << "Start" << RESET;
+
     // First horizontal segment
     for (int i = 0; i <= 23; i++)
     {

@@ -1,20 +1,16 @@
 #include "Board.h"
 #include "CandyStore.h"
+#include "Candy.h"
+#include "Utilities.h"
 #include <iostream>
 #include <stdlib.h>
 #include <random>
 #include <fstream>
 #include <sstream>
 
-using namespace std;
+//My candylist.txt and characters.txt are chatgpt generated (so it's more diverse)
 
-string toLowerCase(string str) {
-    int len = str.length();
-    for (int i = 0; i < len; i++) {
-        str[i] = tolower(str[i]);
-    }
-    return str;
-}
+using namespace std;
 
 void generateCards() {
     int cards[9] = {1, 2, 3, 1, 2, 3, 1, 2, 3};
@@ -63,15 +59,15 @@ vector<Candy> readCandy(string file_name, vector<Candy> candies) {
             string sep;
             // make this neater if i have the time <-
             getline(ss, sep, '|');
-            candy.name = sep;
+            candy.setName(sep);
             getline(ss, sep, '|');
-            candy.description = sep;
+            candy.setDescription(sep);
             getline(ss, sep, '|');
-            candy.price = stod(sep);
+            candy.setPrice(stod(sep));
             getline(ss, sep, '|');
-            candy.candy_type = sep;
+            candy.setCandyType(sep);
             getline(ss, sep);
-            candy.effect = stoi(sep);
+            candy.setEffect(stoi(sep));
             // make sure it's always in this order or its index oop
             candies.push_back(candy);
         }
@@ -85,7 +81,7 @@ vector<Candy> readCandy(string file_name, vector<Candy> candies) {
 Candy findCandy(string name, vector<Candy> candies) {
     int len = candies.size();
     for (int i = 0; i < len; i++) {
-        if (toLowerCase(name) == toLowerCase(candies.at(i).name)) {
+        if (toLowerCase(name) == toLowerCase(candies.at(i).getName())) {
             return candies.at(i);
         }
     }
@@ -93,14 +89,14 @@ Candy findCandy(string name, vector<Candy> candies) {
 }
 
 // same thing as findCandy but for characters
-Character findCharacter(string name, vector<Character> chars) {
+int findCharacter(string name, vector<Character> chars) {
     int len = chars.size();
     for (int i = 0; i < len; i++) {
         if (toLowerCase(name) == toLowerCase(chars.at(i).name)) {
-            return chars.at(i);
+            return i;
         }
     }
-    return Character{};
+    return -1;
 }
 
 //This function is much like the read candy function
@@ -169,6 +165,30 @@ void generateCandyStores(Board board, CandyStore candy_stores[]) {
     }
 }
 
+//print all the available characters from vector
+void printCharacters(vector<Character> characters) {
+    int len = characters.size();
+    for (int i = 0; i < len; i++) {
+        cout << "Character name: " << characters.at(i).name << endl;
+        cout << "Character stamina: " << characters.at(i).stamina << endl;
+        cout << "Character gold: " << characters.at(i).gold << endl;
+        cout << "Character candies: ";
+        int len2 = characters.at(i).candies.size();
+        //iterate through candies and print them
+        for (int j = 0; j < len2; j++) {
+            // if it's the last candy, don't print a comma
+            if (j == len2 - 1) {
+                cout << characters.at(i).candies.at(j).getName() << endl;
+                break;
+            }
+            else {
+                cout << characters.at(i).candies.at(j).getName() << ", ";
+            }
+        }
+        cout << endl;
+    }
+}
+
 int main() {
     // vector for selected characters for each player, and a vector for the list of characters
     vector<Character> characters;
@@ -193,32 +213,29 @@ int main() {
         return -1;
     }
 
+    clearInput();
+
     // get players to choose their characters
     for (int i = 0; i < numberOfPlayers; i++) {
         string name;
-        cout << "Enter player " << i + 1 << " name :" << endl; // because players start from (1) not (0) unlike the index
-        cin.clear();
-        cin.ignore(10000, '\n');
+        cout << "Enter player " << i + 1 << " name :" << endl; // because players start from (1) not (0) unlike the index    
         getline(cin, name);
         cout << "Nice! Now here are the available characters you can select from:" << endl;
-        int len = characters.size();
-        for (int j = 0; j < len; j++) {
-            cout << "Character name: " << characters.at(j).name << endl;
-            cout << "Character stamina: " << characters.at(j).stamina << endl;
-            cout << "Character gold: " << characters.at(j).gold << endl;
-            cout << "Character candies: " << endl;
-            int len2 = characters.at(j).candies.size();
-            for (int k = 0; k < len2; k++) {
-                cout << candies.at(k).name << " ";
-            }
-            cout << endl;
-        }
+        printCharacters(characters); //print the list of characters (from vector)
         string character;
         cout << "Enter the name of the character you want to select: " << endl;
-        cin.clear();
-        cin.ignore(10000, '\n');
         getline(cin, character);
-        findCharacter(character, characters);
+        while (findCharacter(character, characters) == -1) {
+            cout << "Invalid character! Please enter a valid character name: " << endl;
+            getline(cin, character);
+        }
+
+        // add player to players vector and remove character from characters vector
+        Character characterObj = characters.at(findCharacter(character, characters));
+        players.push_back(Player{name, character, 0, characterObj.gold, characterObj.candies, characterObj.stamina}); // add player to players vector
+        characters.erase(characters.begin() + findCharacter(character, characters)); //using the erase method instead of iterating
+        // since we're not really limited by anything (beginning index + index of character to delete)
+        cout << "Character selected successfully!" << endl;
     }
 
     // declare board object with player count
