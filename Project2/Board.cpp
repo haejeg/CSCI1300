@@ -86,7 +86,6 @@ void Board::displayBoard()
         }
         if (!overlap) {
             for (int j = i + 1; j < len; j++) {
-                cout<< i << j << endl;
                 if (_player_position.at(i).getPosition() == _player_position.at(j).getPosition()) {
                     count++;
                     overlappingIdxs.push_back(i);
@@ -95,7 +94,6 @@ void Board::displayBoard()
             overlap = false;
         }
     }
-    cout << count << " " << _player_position.size() << endl;
     readjustment = (count - 1) * 2 + (_player_position.size() - count) * 2 + 5;
 
     cout << ORANGE << "Start" << RESET;
