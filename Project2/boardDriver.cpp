@@ -21,6 +21,14 @@ struct Character {
     int stamina;
 };
 
+/*
+In Candyland, our game relies on a unique deck of Cards to add an element of chance and excitement to your journey. 
+These cards come in three colors: magenta, green, and blue, each representing a regular move, and their rarer counterparts: double magenta, double green, and double blue,
+offer an opportunity to advance two tiles(same color) further. When a player draws a card from the deck, a message prompt informs them of the card type, 
+indicating whether it's a single-color or double-color card. The double-color cards allow a player to advance two tiles further of the same color when drawn.
+So, if a player draws a double minty green card, for instance, they'll progress two green-color tiles ahead instead of one. Every turn, players randomly select a card from this deck,
+shaping the course of their adventure.
+*/
 void generateCards() {
     int cards[9] = {1, 2, 3, 1, 2, 3, 1, 2, 3};
 
@@ -173,6 +181,55 @@ void generateCandyStores(Board board, CandyStore candy_stores[]) {
         board.addCandyStore(candy_stores[i].getCandyStorePosition());
     }
 }
+
+// Create a special tiles (no class needed because there's nothing to specifically store besides the tile numbers)
+void generateSpecialTiles(vector<int> tiles) {
+    
+}
+
+// Generate hidden treasures (no class needed because there's nothing to specifically store besides the tile numbers)
+void generateTreasureTiles(vector<int> tiles) {
+
+}
+
+// Homework 7
+bool rockPaperScissors() {
+
+}
+
+// Check percentage-wise whether or not a calamity will happen or not in a tile
+bool isCalamity() {
+
+}
+
+// Calamities
+void doCalamity() {
+
+}
+
+// read all riddles from the text file given
+void readRiddles() {
+
+}
+
+// check whether or not the player got a riddle correct
+bool checkRiddles() {
+
+}
+
+// check whether or not the game is over by checking all 4 of the criteras given-
+/*
+and print these stats
+
+Name of the player and their character
+Amount of Gold Left
+Stamina Left
+Candies in the player’s possession
+*/
+bool isGameOver() {
+
+}
+
 
 //print all the available characters from vector
 void printCharacters(vector<Character> characters) {
