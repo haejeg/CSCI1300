@@ -6,11 +6,11 @@ using namespace std;
 
 class Candy {
     private:
-        string name;
-        string description;
-        double price;
-        string candy_type;
-        int effect;
+        string _name;
+        string _description;
+        double _price;
+        string _candy_type;
+        int _effect;
         
     public:
         Candy();

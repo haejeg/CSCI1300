@@ -35,7 +35,7 @@ void Board::resetBoard()
     int len = _player_position.size();
     for (int i = 0; i < len; i++)
     {
-        _player_position.at(i).position = 0;
+        _player_position.at(i).setPosition(0);
     }
 }
 
@@ -52,7 +52,7 @@ void Board::displayTile(int position)
     int len = _player_position.size();
     for (int i = 0; i < len; i++)
     {
-        if (position == _player_position.at(i).position)
+        if (position == _player_position.at(i).getPosition())
         {
             // if there is a player then print player by their player id
             cout << " " << i + 1 ; // i + 1 because it's weird having player 0 and doesn't make much sense
@@ -87,7 +87,7 @@ void Board::displayBoard()
         if (!overlap) {
             for (int j = i + 1; j < len; j++) {
                 cout<< i << j << endl;
-                if (_player_position.at(i).position == _player_position.at(j).position) {
+                if (_player_position.at(i).getPosition() == _player_position.at(j).getPosition()) {
                     count++;
                     overlappingIdxs.push_back(i);
                 }
@@ -158,7 +158,7 @@ bool Board::setPlayerPosition(int new_position, int playerid)
 {
     if (new_position >= 0 && new_position < _BOARD_SIZE)
     {
-        _player_position.at(playerid).position = new_position;
+        _player_position.at(playerid).setPosition(new_position);
         return true;
     }
     return false;
@@ -176,7 +176,7 @@ int Board::getCandyStoreCount() const
 
 int Board::getPlayerPosition(int playerid) const
 {
-    return _player_position.at(playerid).position;
+    return _player_position.at(playerid).getPosition();
 }
 
 bool Board::addCandyStore(int position)
@@ -204,11 +204,11 @@ bool Board::isPositionCandyStore(int board_position)
 
 bool Board::movePlayer(int tile_to_move_forward, int playerid)
 {
-    int new_player_position = tile_to_move_forward + _player_position.at(playerid).position;
+    int new_player_position = tile_to_move_forward + _player_position.at(playerid).getPosition();
     if(new_player_position < 0 || new_player_position >= _BOARD_SIZE)
     {
         return false;
     }
-    _player_position.at(playerid).position = new_player_position;
+    _player_position.at(playerid).setPosition(new_player_position);
     return true;
 }

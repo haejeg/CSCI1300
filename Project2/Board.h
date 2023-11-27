@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Candy.h"
+#include "Player.h"
 #include <vector>
 #define RED "\033[;41m"     /* Red */
 #define GREEN "\033[;42m"   /* Green */
@@ -18,24 +19,6 @@ struct Tile
 {
     string color;
     string tile_type;
-};
-
-// this will included all needed values that a player needs to have
-struct Player {
-    string name;
-    string character;
-    int position;
-    int gold;
-    vector<Candy> candies;
-    int stamina;
-};
-
-struct Character {
-    string name;
-    int position;
-    int gold;
-    vector<Candy> candies;
-    int stamina;
 };
 
 class Board

@@ -1,6 +1,7 @@
 #include "Board.h"
 #include "CandyStore.h"
 #include "Candy.h"
+#include "Player.h"
 #include "Utilities.h"
 #include <iostream>
 #include <stdlib.h>
@@ -11,6 +12,14 @@
 //My candylist.txt and characters.txt are chatgpt generated (so it's more diverse)
 
 using namespace std;
+
+struct Character {
+    string name;
+    int position;
+    int gold;
+    vector<Candy> candies;
+    int stamina;
+};
 
 void generateCards() {
     int cards[9] = {1, 2, 3, 1, 2, 3, 1, 2, 3};
@@ -215,7 +224,7 @@ int main() {
 
     clearInput();
 
-    // get players to choose their characters
+    // get players to choose their characters, remove them if they are selected and add them to the players vector
     for (int i = 0; i < numberOfPlayers; i++) {
         string name;
         cout << "Enter player " << i + 1 << " name :" << endl; // because players start from (1) not (0) unlike the index    
@@ -232,7 +241,14 @@ int main() {
 
         // add player to players vector and remove character from characters vector
         Character characterObj = characters.at(findCharacter(character, characters));
-        players.push_back(Player{name, character, 0, characterObj.gold, characterObj.candies, characterObj.stamina}); // add player to players vector
+        Player player;
+        player.setName(name);
+        player.setCharacter(characterObj.name);
+        player.setPosition(0);
+        player.setGold(characterObj.gold);
+        player.setStamina(characterObj.stamina);
+        player.setCandies(characterObj.candies);
+        players.push_back(player); // add player to players vector
         characters.erase(characters.begin() + findCharacter(character, characters)); //using the erase method instead of iterating
         // since we're not really limited by anything (beginning index + index of character to delete)
         cout << "Character selected successfully!" << endl;
