@@ -66,6 +66,10 @@ void Board::displayTile(int position)
     cout << " " << RESET;
 }
 
+void Board::addSpecialTile(specialTile specialTile) {
+    _special_tiles.push_back(specialTile);
+}
+
 void Board::displayBoard()
 {
     //Initial readjustment - the case where every piece is in the first square
@@ -152,6 +156,7 @@ void Board::displayBoard()
     cout << ORANGE << "Castle" << RESET << endl;
 }
 
+// setplayerposition should log where the player was beforehand
 bool Board::setPlayerPosition(int new_position, int playerid)
 {
     if (new_position >= 0 && new_position < _BOARD_SIZE)
@@ -177,6 +182,7 @@ int Board::getPlayerPosition(int playerid) const
     return _player_position.at(playerid).getPosition();
 }
 
+// addcandystore to board
 bool Board::addCandyStore(int position)
 {
     if (_candy_store_count >= _MAX_CANDY_STORE)
@@ -188,6 +194,7 @@ bool Board::addCandyStore(int position)
     return true;
 }
 
+// returns whether or not tile is a candystore
 bool Board::isPositionCandyStore(int board_position)
 {
     for (int i = 0; i < _candy_store_count; i++)
@@ -200,6 +207,7 @@ bool Board::isPositionCandyStore(int board_position)
     return false;
 }
 
+// movePlayer should have a feature in which it logs the player's last move so it is able to undo it when landing on gingerbread tile
 bool Board::movePlayer(int tile_to_move_forward, int playerid)
 {
     int new_player_position = tile_to_move_forward + _player_position.at(playerid).getPosition();

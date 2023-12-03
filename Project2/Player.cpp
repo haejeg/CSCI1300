@@ -1,4 +1,6 @@
 #include "Player.h"
+#include "Board.h"
+#include "Utilities.h"
 
 Player::Player()
 {
@@ -79,3 +81,71 @@ void Player::setCandies(vector<Candy> candies)
 {
     _candies = candies;
 }
+
+int Player::getCandyAmount() const {
+    return _candies.size();
+}
+
+// findCandy will find the candy in the pre-existing candies vector and will return an object when you search by name
+// if not found, it will return nothing (the game should prevent something like this happening anyways..)
+Candy Player::findCandy(string name, vector<Candy> candies) {
+    int len = candies.size();
+    for (int i = 0; i < len; i++) {
+        if (toLowerCase(name) == toLowerCase(candies.at(i).getName())) {
+            return candies.at(i);
+        }
+    }
+    return Candy{};
+}
+
+void Player::printInventory() {
+    int _MAX_CANDY_AMOUNT = _candies.size();
+    Candy printArr[_MAX_CANDY_AMOUNT] = {};
+    int j = 0;
+    for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
+        if (_candies[i].getName() != "") {
+            printArr[j] = _candies[i];
+            j++;
+        }
+    }
+
+    for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
+        _candies[i] = printArr[i];
+    }
+
+    cout<<"|";
+    for (int i = 0; i < _MAX_CANDY_AMOUNT / 2; i++) {
+        if (_candies[i].getName() == "") {
+            cout<<"[Empty]|";
+        } else {
+            cout<<"["<<_candies[i].getName()<<"]|";
+        }
+    }
+    cout<<endl;
+    cout<<"|";
+    for (int i = (_MAX_CANDY_AMOUNT / 2); i < _MAX_CANDY_AMOUNT; i++) {
+        if (_candies[i].getName() == "") {
+            cout<<"[Empty]|";
+        } else {
+            cout<<"["<<_candies[i].getName()<<"]|";
+        }
+    }
+    cout<<endl;
+}
+
+void Player::addCandy(Candy candy) {
+    _candies.push_back(candy);
+}
+
+bool Player::removeCandy(string name) {
+    int len = _candies.size();
+    for (int i = 0; i < len; i++) {
+        if (toLowerCase(_candies[i].getName()) == toLowerCase(name)) {
+            _candies.erase(_candies.begin() + i);
+            return true;
+        }
+    }
+    return false;
+}
+
+// i should add a addCandies() and removeCandies() instead of setCandies() but this works for now

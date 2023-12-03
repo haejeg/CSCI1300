@@ -1,8 +1,8 @@
 #include "Board.h"
 #include "CandyStore.h"
-#include "Candy.h"
 #include "Player.h"
 #include "Utilities.h"
+#include "Candy.h"
 #include <iostream>
 #include <stdlib.h>
 #include <random>
@@ -21,6 +21,7 @@ struct Character {
     int stamina;
 };
 
+
 /*
 In Candyland, our game relies on a unique deck of Cards to add an element of chance and excitement to your journey. 
 These cards come in three colors: magenta, green, and blue, each representing a regular move, and their rarer counterparts: double magenta, double green, and double blue,
@@ -29,6 +30,7 @@ indicating whether it's a single-color or double-color card. The double-color ca
 So, if a player draws a double minty green card, for instance, they'll progress two green-color tiles ahead instead of one. Every turn, players randomly select a card from this deck,
 shaping the course of their adventure.
 */
+
 void generateCards() {
     int cards[9] = {1, 2, 3, 1, 2, 3, 1, 2, 3};
 
@@ -116,7 +118,7 @@ int findCharacter(string name, vector<Character> chars) {
     return -1;
 }
 
-//This function is much like the read candy function
+//This function is much like the read candy function (in my case, I want each character to start with a candy count of 3) 
 vector<Character> readCharacters(string file_name, vector<Character> characters, vector<Candy> candies) {
     ifstream fin(file_name);
     // If file is inaccessible return empty vector
@@ -183,52 +185,140 @@ void generateCandyStores(Board board, CandyStore candy_stores[]) {
 }
 
 // Create a special tiles (no class needed because there's nothing to specifically store besides the tile numbers)
-void generateSpecialTiles(vector<int> tiles) {
-    
+void generateSpecialTiles(Board board, int percentage) {
+    srand((int) time(0));
+    // for all 83 tiles
+    for (int i = 0; i < 83; i++) {
+        // if random is within percentage
+        if (rand() % 100 <= percentage) {
+            specialTile tempTile;
+            tempTile.index = i;
+            switch(rand() % 3 + 1) { // because 4 random tiles
+                case 1:
+                    tempTile.tile_type = "shortcut";
+                case 2:
+                    tempTile.tile_type = "icecream";
+                case 3:
+                    tempTile.tile_type = "gumdrop";
+                case 4:
+                    tempTile.tile_type = "gingerbread";
+                //no default needed because it's impossible
+            }
+            // add to special tiles in board object
+            board.addSpecialTile(tempTile);
+        }
+    }
 }
 
 // Generate hidden treasures (no class needed because there's nothing to specifically store besides the tile numbers)
-void generateTreasureTiles(vector<int> tiles) {
-
+void generateTreasureTiles(vector<int>& tiles) { // pass this by reference so that i dont have to return anything (hassle)
+    srand((int) time(0));
+    // iterate it 3 times since there should be 3 hidden treasures across the map
+    for (int i = 0; i < 3; i++) {
+        int randNum = rand() % 83 + 1;
+        tiles.push_back(randNum);
+    }
 }
 
 // Homework 7
-bool rockPaperScissors() {
+void playRockPaperScissors(Player player, vector<Candy> candies) {
+    srand((int) time(0));
+    string candy1;
+    int winner;
+    int p1;
+    bool tie = true;
+    
+    if (player.getCandyAmount() == 0) {
+        cout<<"Not enough candy!"<<endl;
+        return;
+    }
 
+    cout<<"Player Inventory:"<<endl;
+    player.printInventory();
+    cout<<"Select candy to bet"<<endl;
+    getline(cin, candy1);
+    Candy candy = findCandy(candy1, candies);
+    while (candy.getName() == "") {
+        cout<<"Invalid selection!"<<endl;
+        getline(cin, candy1);
+    }
+
+    do {
+        cout<<"Player 1: Select rock, paper, or scissors"<<endl;
+        cout<<"1. Rock"<<endl;
+        cout<<"2. Paper"<<endl;
+        cout<<"3. Scissors"<<endl;
+        cin>>p1;
+        int p2 = rand() % 3 + 1;
+        if (p1 == p2) {
+            cout<<"Tie!"<<endl;
+        } else if (p1 == 1 && p2 == 2) {
+            cout<<"Player 2 wins!"<<endl;
+            winner = 2;
+            tie = false;
+        } else if (p1 == 1 && p2 == 3) {
+            cout<<"Player 1 wins!"<<endl;
+            winner = 1;
+            tie = false;
+        } else if (p1 == 2 && p2 == 1) {
+            cout<<"Player 1 wins!"<<endl;
+            winner = 1;
+            tie = false;
+        } else if (p1 == 2 && p2 == 3) {
+            cout<<"Player 2 wins!"<<endl;
+            winner = 2;
+            tie = false;
+        } else if (p1 == 3 && p2 == 1) {
+            cout<<"Player 2 wins!"<<endl;
+            winner = 2;
+            tie = false;
+        } else if (p1 == 3 && p2 == 2) {
+            cout<<"Player 1 wins!"<<endl;
+            winner = 1;
+            tie = false;
+        }
+    } while(tie);
+
+    if (winner == 1) {
+        player.removeCandy(candy1);
+    } 
+    else {
+        player.addCandy(candy);
+    }
 }
 
 // Check percentage-wise whether or not a calamity will happen or not in a tile
-bool isCalamity() {
+// bool isCalamity() {
 
-}
+// }
 
-// Calamities
-void doCalamity() {
+// // Calamities
+// void doCalamity() {
 
-}
+// }
 
-// read all riddles from the text file given
-void readRiddles() {
+// // read all riddles from the text file given
+// void readRiddles() {
 
-}
+// }
 
-// check whether or not the player got a riddle correct
-bool checkRiddles() {
+// // check whether or not the player got a riddle correct
+// bool checkRiddles() {
 
-}
+// }
 
-// check whether or not the game is over by checking all 4 of the criteras given-
-/*
-and print these stats
+// // check whether or not the game is over by checking all 4 of the criteras given-
+// /*
+// and print these stats
 
-Name of the player and their character
-Amount of Gold Left
-Stamina Left
-Candies in the player’s possession
-*/
-bool isGameOver() {
+// Name of the player and their character
+// Amount of Gold Left
+// Stamina Left
+// Candies in the player’s possession
+// */
+// bool isGameOver() {
 
-}
+// }
 
 
 //print all the available characters from vector
@@ -321,6 +411,8 @@ int main() {
     for (int i = 0; i < 3; i++) {
         candy_stores[i].fillCandy(candies);
     }
+
+    playRockPaperScissors(players.at(0), candies);
     
     board.displayBoard();
     return 0;

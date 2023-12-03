@@ -2,7 +2,6 @@
 #define BOARD_H
 
 #include <iostream>
-#include "Candy.h"
 #include "Player.h"
 #include <vector>
 #define RED "\033[;41m"     /* Red */
@@ -21,6 +20,11 @@ struct Tile
     string tile_type;
 };
 
+struct specialTile {
+    string tile_type;
+    int index;  
+};
+
 class Board
 {
     private:
@@ -31,6 +35,7 @@ class Board
         int _candy_store_count;
         // process of mind. initially, just an int, make that into an array of int, then vector of int, then vector of Player structs
         vector<Player> _player_position;
+        vector<specialTile> _special_tiles;
 
     public:
         Board();
@@ -50,6 +55,8 @@ class Board
         bool isPositionCandyStore(int); 
 
         bool movePlayer(int tile_to_move_forward, int);
+
+        void addSpecialTile(specialTile);
 };
 
 #endif

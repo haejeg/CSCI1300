@@ -27,7 +27,6 @@ class Candy {
         void setPrice(double);
         void setCandyType(string);
         void setEffect(int);    
-        void affectPlayer(Player);
 };
 
 #endif

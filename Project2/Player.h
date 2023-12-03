@@ -26,6 +26,7 @@ class Player {
         int getGold() const;
         int getStamina() const;
         vector<Candy> getCandies() const;
+        int getCandyAmount() const;
 
         void setName(string);
         void setCharacter(string);
@@ -33,6 +34,11 @@ class Player {
         void setGold(int);
         void setStamina(int);
         void setCandies(vector<Candy>);
+        void addCandy(Candy);
+        bool removeCandy(string);
+        Candy findCandy(string, vector<Candy>);
+
+        void printInventory();
 };
 
 #endif
