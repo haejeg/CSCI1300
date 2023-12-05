@@ -4,3 +4,4 @@ Rainbow_Riley|110|45|Thunder Thistle,Thunderstrike Toffee,Whimsical Waffle,Refle
 Sugarplum_Sam|130|40|Spectral Sugar,Amethyst Amulet,Inferno Infusion,Arctic Aura
 Glowing_Grace|150|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
 test|150|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
+test|150|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee

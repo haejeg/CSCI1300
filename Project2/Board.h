@@ -36,6 +36,7 @@ class Board
         // process of mind. initially, just an int, make that into an array of int, then vector of int, then vector of Player structs
         vector<Player> _player_position;
         vector<specialTile> _special_tiles;
+        vector<specialTile> _treasure_tiles;
 
     public:
         Board();
@@ -45,18 +46,22 @@ class Board
         void displayTile(int);
         void displayBoard();
 
-        bool setPlayerPosition(int, int);
-
         int getBoardSize() const;
-        int getCandyStoreCount() const;
-        int getPlayerPosition(int) const;
 
+        int getCandyStoreCount() const;
         bool addCandyStore(int);
         bool isPositionCandyStore(int); 
 
+        int getPlayerPosition(int) const;
         bool movePlayer(int tile_to_move_forward, int);
+        bool setPlayerPosition(int, int);      
+        vector<Player> getPlayers() const;  
 
         void addSpecialTile(specialTile);
+        bool isSpecialTile(int);
+
+        void addTreasureTile(specialTile);
+        bool isTreasureTile(int);
 };
 
 #endif

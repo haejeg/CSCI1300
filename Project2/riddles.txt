@@ -1,0 +1,3 @@
+What gets wet while drying? (single word, lowercase)|towel  
+How many letters are in the alphabet? (integer)|11
+What are the next three letters in this sequence: OTTFFSS? (no spaces, uppercase)|ENT

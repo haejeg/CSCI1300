@@ -10,6 +10,7 @@ using namespace std;
 class Player {
     private:
         string _name;
+        int _id;
         string _character;
         int _position;
         int _gold;

@@ -10,6 +10,30 @@ Board::Board(int playercount, vector<Player> selections) {
     _player_position = selections;
 }
 
+void Board::addTreasureTile(specialTile specialTile) {
+    _treasure_tiles.push_back(specialTile);
+}
+
+bool Board::isTreasureTile(int index) {
+    int len = _treasure_tiles.size();
+    for (int i = 0; i < len; i++) {
+        if (index == _treasure_tiles.at(i).index) {
+            return true;
+        }
+    }
+    return false;
+}
+
+bool Board::isSpecialTile(int index) {
+    int len = _special_tiles.size();
+    for (int i = 0; i < len; i++) {
+        if (index == _special_tiles.at(i).index) {
+            return true;
+        }
+    }
+    return false;
+}
+
 void Board::resetBoard()
 {
     const int COLOR_COUNT = 3;
@@ -161,7 +185,9 @@ bool Board::setPlayerPosition(int new_position, int playerid)
 {
     if (new_position >= 0 && new_position < _BOARD_SIZE)
     {
+        cout<<"Old position: "<<_player_position.at(playerid).getPosition()<<endl;
         _player_position.at(playerid).setPosition(new_position);
+        cout<<"New position: "<<_player_position.at(playerid).getPosition()<<endl;
         return true;
     }
     return false;
@@ -176,10 +202,15 @@ int Board::getCandyStoreCount() const
 {
     return _candy_store_count;
 }
-
+ 
 int Board::getPlayerPosition(int playerid) const
 {
     return _player_position.at(playerid).getPosition();
+}
+
+vector<Player> Board::getPlayers() const
+{
+    return _player_position;
 }
 
 // addcandystore to board
