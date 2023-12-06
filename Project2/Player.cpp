@@ -20,6 +20,7 @@ Player::Player(string name, string character, int position, int gold, int stamin
     _gold = gold;
     _stamina = stamina;
     _candies = candies;
+    _shield = false;
 }
 
 string Player::getName() const
@@ -96,6 +97,14 @@ Candy Player::findCandy(string name, vector<Candy> candies) {
         }
     }
     return Candy{};
+}
+
+bool Player::getShield() const {
+    return _shield;
+}
+
+void Player::setShield(bool shield) {
+    _shield = shield;
 }
 
 void Player::printInventory() {

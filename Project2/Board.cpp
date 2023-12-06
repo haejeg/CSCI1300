@@ -8,6 +8,7 @@ Board::Board()
 Board::Board(int playercount, vector<Player> selections) {
     resetBoard();
     _player_position = selections;
+    _previous_position = selections;
 }
 
 void Board::addTreasureTile(specialTile specialTile) {
@@ -180,17 +181,28 @@ void Board::displayBoard()
     cout << ORANGE << "Castle" << RESET << endl;
 }
 
+int Board::getPreviousPlayerPosition(int playerid) const
+{
+    return _previous_position.at(playerid).getPosition();
+}
+
 // setplayerposition should log where the player was beforehand
 bool Board::setPlayerPosition(int new_position, int playerid)
 {
     if (new_position >= 0 && new_position < _BOARD_SIZE)
     {
         cout<<"Old position: "<<_player_position.at(playerid).getPosition()<<endl;
+        _previous_position.at(playerid).setPosition(_player_position.at(playerid).getPosition());
         _player_position.at(playerid).setPosition(new_position);
         cout<<"New position: "<<_player_position.at(playerid).getPosition()<<endl;
         return true;
     }
     return false;
+}
+
+string Board::getPlayerName(int playerid) const
+{
+    return _player_position.at(playerid).getName();
 }
 
 int Board::getBoardSize() const
@@ -211,6 +223,18 @@ int Board::getPlayerPosition(int playerid) const
 vector<Player> Board::getPlayers() const
 {
     return _player_position;
+}
+
+specialTile Board::getSpecialTile(int index) {
+    int len = _special_tiles.size();
+    for (int i = 0; i < len; i++) {
+        if (index == _special_tiles.at(i).index) {
+            return _special_tiles.at(i);
+        }
+    }
+    specialTile empty;
+    empty.index = -1;
+    return empty;
 }
 
 // addcandystore to board
@@ -248,4 +272,60 @@ bool Board::movePlayer(int tile_to_move_forward, int playerid)
     }
     _player_position.at(playerid).setPosition(new_player_position);
     return true;
+}
+
+void Board::setPlayerStamina(int playerid, int stamina) {
+    _player_position.at(playerid).setStamina(stamina);
+}
+
+void Board::setPlayerGold(int playerid, int gold) {
+    _player_position.at(playerid).setGold(gold);
+}
+
+void Board::setPlayerShield(int playerid, bool shield) {
+    _player_position.at(playerid).setShield(shield);
+}
+
+void Board::setPlayerCandies(int playerid, vector<Candy> candies) {
+    _player_position.at(playerid).setCandies(candies);
+}
+
+void Board::addCandyToPlayer(int playerid, Candy candy) {
+    _player_position.at(playerid).addCandy(candy);
+}
+
+bool Board::removeCandyFromPlayer(int playerid, string name) {
+    return _player_position.at(playerid).removeCandy(name);
+}
+
+Candy Board::findCandyFromPlayer(int playerid, string name) {
+    return _player_position.at(playerid).findCandy(name, _player_position.at(playerid).getCandies());
+}
+
+int Board::getPlayerCandyAmount(int playerid) const {
+    return _player_position.at(playerid).getCandyAmount();
+}
+
+int Board::getPlayerStamina(int playerid) const {
+    return _player_position.at(playerid).getStamina();
+}
+
+int Board::getPlayerGold(int playerid) const {
+    return _player_position.at(playerid).getGold();
+}
+
+bool Board::getPlayerShield(int playerid) const {
+    return _player_position.at(playerid).getShield();
+}
+
+vector<Candy> Board::getPlayerCandies(int playerid) const {
+    return _player_position.at(playerid).getCandies();
+}
+
+void Board::printPlayerInventory(int playerid) {
+    _player_position.at(playerid).printInventory();
+}
+
+string Board::getPlayerCharacter(int playerid) const {
+    return _player_position.at(playerid).getCharacter();
 }

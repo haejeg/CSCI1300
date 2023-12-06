@@ -34,6 +34,7 @@ class Board
         int _candy_store_position[_MAX_CANDY_STORE];
         int _candy_store_count;
         // process of mind. initially, just an int, make that into an array of int, then vector of int, then vector of Player structs
+        vector<Player> _previous_position;
         vector<Player> _player_position;
         vector<specialTile> _special_tiles;
         vector<specialTile> _treasure_tiles;
@@ -52,13 +53,32 @@ class Board
         bool addCandyStore(int);
         bool isPositionCandyStore(int); 
 
+        string getPlayerName(int) const;
+        string getPlayerCharacter(int) const;
+
         int getPlayerPosition(int) const;
         bool movePlayer(int tile_to_move_forward, int);
         bool setPlayerPosition(int, int);      
         vector<Player> getPlayers() const;  
+        int getPreviousPlayerPosition(int playerid) const;
+        void setPlayerStamina(int, int);
+        void setPlayerGold(int, int);
+        void setPlayerShield(int, bool);
+        void setPlayerCandies(int, vector<Candy>);
+        void addCandyToPlayer(int, Candy);
+        bool removeCandyFromPlayer(int, string);
+        Candy findCandyFromPlayer(int, string);
+        int getPlayerCandyAmount(int) const;
+
+        int getPlayerStamina(int) const;
+        int getPlayerGold(int) const;
+        bool getPlayerShield(int) const;
+        vector<Candy> getPlayerCandies(int) const;
+        void printPlayerInventory(int);
 
         void addSpecialTile(specialTile);
         bool isSpecialTile(int);
+        specialTile getSpecialTile(int);
 
         void addTreasureTile(specialTile);
         bool isTreasureTile(int);

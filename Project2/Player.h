@@ -15,29 +15,36 @@ class Player {
         int _position;
         int _gold;
         int _stamina;
+        bool _shield;
         vector<Candy> _candies;
 
     public:
         Player();
         Player(string, string, int, int, int, vector<Candy>);
 
-        string getName() const;
-        string getCharacter() const;
-        int getPosition() const;
-        int getGold() const;
-        int getStamina() const;
-        vector<Candy> getCandies() const;
-        int getCandyAmount() const;
-
         void setName(string);
+        string getName() const;
+
         void setCharacter(string);
+        string getCharacter() const;
+
         void setPosition(int);
+        int getPosition() const;
+
         void setGold(int);
+        int getGold() const;
+        void setShield(bool); // protects the player from being robbed
+        bool getShield() const;
+
         void setStamina(int);
+        int getStamina() const;
+
+        vector<Candy> getCandies() const;
         void setCandies(vector<Candy>);
         void addCandy(Candy);
         bool removeCandy(string);
         Candy findCandy(string, vector<Candy>);
+        int getCandyAmount() const;
 
         void printInventory();
 };
