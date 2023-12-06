@@ -53,6 +53,7 @@ class Board
         bool addCandyStore(int);
         bool isPositionCandyStore(int); 
 
+        // all player stuff since vector<Player> _player_position is private in Board which means we need to use getters and setters to access Player stuff
         string getPlayerName(int) const;
         string getPlayerCharacter(int) const;
 
@@ -76,6 +77,7 @@ class Board
         vector<Candy> getPlayerCandies(int) const;
         void printPlayerInventory(int);
 
+        // tile stuff
         void addSpecialTile(specialTile);
         bool isSpecialTile(int);
         specialTile getSpecialTile(int);

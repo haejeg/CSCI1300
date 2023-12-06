@@ -1,7 +1,7 @@
-Cocoa_Cleo|140|35|Mirage Mint,Dazzling Dewdrop,Blazing Bonbon,Gelatinous Guardian
-Caramel_Corey|170|28|Mystic Muffin,Reflective Shield,Frosty Frosting,Viper's Venom
-Rainbow_Riley|110|45|Thunder Thistle,Thunderstrike Toffee,Whimsical Waffle,Reflective Rose
-Sugarplum_Sam|130|40|Spectral Sugar,Amethyst Amulet,Inferno Infusion,Arctic Aura
-Glowing_Grace|150|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
-test|150|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
-test|150|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
+Cocoa_Cleo|100|35|Mirage Mint,Dazzling Dewdrop,Blazing Bonbon,Gelatinous Guardian
+Caramel_Corey|100|28|Mystic Muffin,Reflective Shield,Frosty Frosting,Viper's Venom
+Rainbow_Riley|100|45|Thunder Thistle,Thunderstrike Toffee,Whimsical Waffle,Reflective Rose
+Sugarplum_Sam|100|40|Spectral Sugar,Amethyst Amulet,Inferno Infusion,Arctic Aura
+Glowing_Grace|100|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
+test|100|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
+test|100|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee

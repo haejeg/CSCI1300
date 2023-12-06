@@ -97,6 +97,7 @@ void Board::addSpecialTile(specialTile specialTile) {
 
 void Board::displayBoard()
 {
+    //if players are stacked on top of each other, then we need to readjust the board
     //Initial readjustment - the case where every piece is in the first square
     int readjustment = (_player_position.size() - 1) * 2;
     //Calculate readjustment
@@ -104,7 +105,7 @@ void Board::displayBoard()
     vector<int> overlappingIdxs; //Indexes that will overlap so ignore when iterating
     bool overlap = false; //Set initial overlap to false
     int count = 1; // Initial count needs to be 1 in case there are no overlaps
-    for (int i = 0; i < len - 2; i++) { //len - 1 to be cautious of idx out of bounds
+    for (int i = 0; i < len - 1; i++) { //len - 1 to be cautious of idx out of bounds
         if (overlappingIdxs.size() != 0) { //if overlapping size is 0 no need to worry about it
             int laplen = overlappingIdxs.size();
             for (int j = 0; j < laplen; j++) {
@@ -123,7 +124,12 @@ void Board::displayBoard()
             overlap = false;
         }
     }
-    readjustment = (count - 1) * 2 + (_player_position.size() - count) * 2 + 5;
+    cout<<"COUNT: "<<count<<endl;
+    if (count > 1) {
+        readjustment = (count - 1) * 2 + (_player_position.size() - count) * 2 + 5;
+    } else {
+        readjustment = 5;
+    }
 
     cout << ORANGE << "Start" << RESET;
 

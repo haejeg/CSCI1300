@@ -434,6 +434,7 @@ void giveRandomTreasure(Board board, int playerid) {
 
 // // read all riddles from the text file given
 void readRiddles(vector<Riddle>& riddles) {
+    // open file
     fstream fin;
     fin.open("riddles.txt");
     if (fin.fail()) {
@@ -441,6 +442,7 @@ void readRiddles(vector<Riddle>& riddles) {
         return;
     }
     string line;
+    //Syntax is question|answer
     while (getline(fin, line)) {
         if (!line.empty()) {
             stringstream ss;
@@ -455,21 +457,22 @@ void readRiddles(vector<Riddle>& riddles) {
             riddles.push_back(riddle);
         }
     }
-    fin.close();
+    fin.close(); // close file
 }
 
 // // check whether or not the player got a riddle correct
 bool checkRiddles(vector<Riddle>& riddles) {
+    // seed random according to time
     int randomRiddle = rand() % riddles.size();
-    cout<<"Riddle: "<<riddles.at(randomRiddle).question<<endl;
+    cout<<"Riddle: "<<riddles.at(randomRiddle).question<<endl; // print random riddle
     string answer;
     getline(cin, answer);
-    if (toLowerCase(answer) == toLowerCase(riddles.at(randomRiddle).answer)) {
-        cout<<"Correct!"<<endl;
-        return true;
+    if (toLowerCase(answer) == toLowerCase(riddles.at(randomRiddle).answer)) { // if answer is correct
+        cout<<"Correct!"<<endl; 
+        return true; // return true
     }
     cout<<"Incorrect!"<<endl;
-    return false;
+    return false; // if answer is not right return false
 }
 
 //print all the available characters from vector
@@ -658,27 +661,38 @@ int main() {
                         winner = i;
                         win = true;
                     }
-                    // put player at special tile for debugging purposes
+
+                    // same tile constraints (if two players are on the same tile, the first player will be moved back to the previous tile)
+                    for (int j = 0; j < len; j++) {
+                        if (board.getPlayerPosition(i) == board.getPlayerPosition(j) && i != j) { // make sure that the player is not checking against itself
+                            board.setPlayerPosition(board.getPlayerPosition(j) - 1, j); // set player position to previous position
+                            int randRobber = rand() % 26 + 5;
+                            board.setPlayerGold(i, board.getPlayerGold(i) - randRobber); // subtract random gold from player
+                            board.setPlayerGold(j, board.getPlayerGold(j) + randRobber); // add random gold to player  
+                        }
+                    }
                     
-                    if (board.isPositionCandyStore(board.getPlayerPosition(i))) {
+                    if (board.isPositionCandyStore(board.getPlayerPosition(i))) { // check if player is on candy store
                         //print candystore
                         getCandyStore(board, board.getPlayerPosition(i), candy_stores).displayCandies();
                         string candy;
                         cout<<"Enter the name of the candy you want to buy or type exit to leave"<<endl;
                         getline(cin, candy);
+                        // if candy is not in the candy store, ask again or if they want to leave type exit
                         while (!getCandyStore(board, board.getPlayerPosition(i), candy_stores).removeCandy(candy) && toLowerCase(candy) != "exit") {
                             cout<<"Invalid candy! Enter a valid candy"<<endl;
                             getline(cin, candy);
                         }
+                        // if they type exit then leave the candy store (there's probably a more efficient way to go about this)
                         if (toLowerCase(candy) == "exit") {
                             cout<<"You've left the candy store"<<endl;
                         }
-                        else {
+                        else { // if they don't type exit then add the candy to the player's inventory and subtract the candy cost gold
                             board.addCandyToPlayer(i, findCandy(candy, candies));
                             board.setPlayerGold(i, board.getPlayerGold(i) - findCandy(candy, candies).getPrice());
                         }
                     }
-                    else if (board.isSpecialTile(board.getPlayerPosition(i))) {
+                    else if (board.isSpecialTile(board.getPlayerPosition(i))) { // check if player is on special tile
                         // do special tile stuff
                         specialTile tile = board.getSpecialTile(board.getPlayerPosition(i));
                         int getSpecialValue = doSpecialTile(board, board.getPlayerPosition(i), i);
@@ -694,7 +708,7 @@ int main() {
                         }
                         // other stuff doesn't matter since it's just icecream
                     }
-                    else if (board.isTreasureTile(board.getPlayerPosition(i))) {
+                    else if (board.isTreasureTile(board.getPlayerPosition(i))) { // check if player is on treasure tile
                         // do treasure tile stuff
                         if (checkRiddles(riddles)) {
                             // if riddle is correct, give random treasure
@@ -702,6 +716,7 @@ int main() {
                             giveRandomTreasure(board, i);
                         }
                         else {
+                            // if riddle is incorrect just print a message and don't do anyting else
                             cout<<"Unfortunately you got your riddle incorrect.."<<endl;
                         }
                     }

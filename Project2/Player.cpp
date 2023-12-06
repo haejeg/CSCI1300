@@ -70,11 +70,19 @@ void Player::setPosition(int position)
 
 void Player::setGold(int gold)
 {
+    if (_gold >= 100) {
+        _gold = 100;
+        return;
+    }
     _gold = gold;
 }
 
 void Player::setStamina(int stamina)
 {
+    if (_stamina >= 100) {
+        _stamina = 100;
+        return;
+    }
     _stamina = stamina;
 }
 
