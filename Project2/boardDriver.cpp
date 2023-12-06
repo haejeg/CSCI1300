@@ -313,7 +313,7 @@ bool isCalamity(Board board, int tile) {
         srand((int) time(0));
         int randNum = rand() % 100;
         // if percentage <= 40 then calamity happens
-        if (randNum <= 100) {
+        if (randNum <= 40) {
             return true;
         }
     }

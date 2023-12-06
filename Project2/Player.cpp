@@ -74,6 +74,10 @@ void Player::setGold(int gold)
         _gold = 100;
         return;
     }
+    else if (_gold <= 0) {
+        _gold = 0;
+        return;
+    }
     _gold = gold;
 }
 
@@ -81,6 +85,10 @@ void Player::setStamina(int stamina)
 {
     if (_stamina >= 100) {
         _stamina = 100;
+        return;
+    }
+    else if (_stamina <= 0) {
+        _stamina = 0;
         return;
     }
     _stamina = stamina;
