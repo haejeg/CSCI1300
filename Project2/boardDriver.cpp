@@ -177,7 +177,7 @@ bool drawCard(Board& board, int playerid) {
 }
 
 //Generate candy stores and add them to the board
-void generateCandyStores(Board board, CandyStore candy_stores[]) {
+void generateCandyStores(Board& board, CandyStore candy_stores[]) {
     // seed random according to time
     srand((int) time(0));
     // set candy store positions & have checks so values correspond with the colors
@@ -209,6 +209,7 @@ CandyStore getCandyStore(Board board, int position, CandyStore candy_stores[]) {
             return candy_stores[i];
         }
     }
+    // return empty candystore object if not found
     return CandyStore{};
 }
 
@@ -392,6 +393,7 @@ int doCalamity(Board& board, int playerid, int tile) {
                 board.printPlayerInventory(playerid);
                 string candy;
                 cout<<"Enter the name of the candy you want to use to escape the taffy trap, or if you don't want to use any type exit to leave"<<endl;
+                clearInput();
                 getline(cin, candy);
                 while (!board.removeCandyFromPlayer(playerid, candy) && toLowerCase(candy) != "exit") {
                     cout<<"Invalid candy! Enter a valid candy"<<endl;
@@ -688,10 +690,13 @@ int main() {
                     break;
                 case 1:
                     // draw card, move player, check if player is on candy store, check if player is on special tile, or if on a treasure tile
-                    if (drawCard(board, i)) {
-                        winner = i;
-                        win = true;
-                    }
+                    // if (drawCard(board, i)) {
+                    //     winner = i;
+                    //     win = true;
+                    // }
+
+                    // move player to candy store for debugging purposes
+                    board.setPlayerPosition(candy_stores[0].getCandyStorePosition(), i);
 
                     // same tile constraints (if two players are on the same tile, the first player will be moved back to the previous tile)
                     for (int j = 0; j < len; j++) {
@@ -704,15 +709,19 @@ int main() {
                             cout<<"Player "<<board.getPlayerName(j)<<" has stolen "<<randRobber<<" gold from Player "<<board.getPlayerName(i)<<"!"<<endl;
                         }
                     }
+
+                    cout<<"Is position candy store: "<<board.isPositionCandyStore(board.getPlayerPosition(i))<<endl;
                     
                     if (board.isPositionCandyStore(board.getPlayerPosition(i))) { // check if player is on candy store
                         //print candystore
                         getCandyStore(board, board.getPlayerPosition(i), candy_stores).displayCandies();
                         string candy;
                         cout<<"Enter the name of the candy you want to buy or type exit to leave"<<endl;
+                        clearInput();
                         getline(cin, candy);
                         // if candy is not in the candy store, ask again or if they want to leave type exit
-                        while (!getCandyStore(board, board.getPlayerPosition(i), candy_stores).removeCandy(candy) && toLowerCase(candy) != "exit") {
+                        cout<<"Candy store position: "<<getCandyStore(board, board.getPlayerPosition(i), candy_stores).getCandyStorePosition()<<endl;
+                        while (getCandyStore(board, board.getPlayerPosition(i), candy_stores).findCandy(candy).getName() == "" && toLowerCase(candy) != "exit") { 
                             cout<<"Invalid candy! Enter a valid candy"<<endl;
                             getline(cin, candy);
                         }
@@ -723,6 +732,7 @@ int main() {
                         else { // if they don't type exit then add the candy to the player's inventory and subtract the candy cost gold
                             board.addCandyToPlayer(i, findCandy(candy, candies));
                             board.setPlayerGold(i, board.getPlayerGold(i) - findCandy(candy, candies).getPrice());
+                            cout<<"You've bought a "<<findCandy(candy, candies).getName()<<"!"<<endl;
                         }
                     }
                     else if (board.isSpecialTile(board.getPlayerPosition(i))) { // check if player is on special tile

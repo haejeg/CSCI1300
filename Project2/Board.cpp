@@ -206,6 +206,7 @@ bool Board::setPlayerPosition(int new_position, int playerid)
     return false;
 }
 
+
 string Board::getPlayerName(int playerid) const
 {
     return _player_position.at(playerid).getName();
@@ -243,6 +244,11 @@ specialTile Board::getSpecialTile(int index) {
     return empty;
 }
 
+int Board::getCandyStorePosition(int index) const
+{
+    return _candy_store_position[index];
+}
+
 // addcandystore to board
 bool Board::addCandyStore(int position)
 {
@@ -250,8 +256,11 @@ bool Board::addCandyStore(int position)
     {
         return false;
     }
+    cout<<"Candy store added at position "<<position<<endl;
     _candy_store_position[_candy_store_count] = position;
+    cout<<"Candy store position: "<<_candy_store_position[_candy_store_count]<<endl;
     _candy_store_count++;
+    cout<<"Candy store count: "<<_candy_store_count<<endl;
     return true;
 }
 

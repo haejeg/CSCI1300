@@ -14,7 +14,7 @@ class CandyStore
         int _candy_amount;
         int _candy_store_position;
         string _candy_store_name;
-        const static int _MAX_CANDY_AMOUNT = 9;
+        const static int _MAX_CANDY_AMOUNT = 3;
 
     public:
         CandyStore();
@@ -26,6 +26,7 @@ class CandyStore
         bool fillCandy(vector<Candy>);
         int getCandyStorePosition() const;
         void setCandyStorePosition(int);
+        Candy findCandy(string);
 };
 
 #endif

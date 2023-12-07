@@ -71,6 +71,16 @@ bool CandyStore::removeCandy(string name) {
     return res;
 }
 
+// find candy in store
+Candy CandyStore::findCandy(string name) {
+    for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
+        if (toLowerCase(_inventory[i].getName()) == toLowerCase(name)) {
+            return _inventory[i];
+        }
+    }
+    return Candy{};
+}
+
 // fill candystore with random candies (limited to 9 per store by default)
 bool CandyStore::fillCandy(vector<Candy> candies) {
     srand((int) time(0));
