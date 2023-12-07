@@ -1,23 +1,22 @@
-Enchanted Elixir|Infuses stamina with vitality, adding 15 units|15|Stamina|20
-Venomous Vapor|Drains opponent's stamina by 15 units (moderate)|-15|Strategic|22
-Mystic Muffin|Bestows magical stamina increase of 20 units|20|Stamina|30
-Bubbly Barrier|Shields against moderate poison attacks|2|Defensive|25
-Radiant Ruby|Provides immunity to mild poison candy|1|Defensive|12
-Noxious Nectar|Unleashes a strong poison on opponents, decreasing stamina by 20 units|-20|Poison|28
-Blazing Bonbon|Ignites stamina with fiery energy, granting a boost of 12 units|12|Stamina|18
-Shadow Shifter|Obscures opponent's stamina, reducing it by 18 units (intense)|-18|Poison|25
-Frosty Frosting|Chills stamina, causing a reduction of 15 units|-15|Poison|22
-Reflective Shield|Reflects poison attacks, preventing stamina loss|1|Counter|30
-Mirage Mint|Creates illusions to confuse opponents, protecting against moderate poison|2|Counter|28
-Thunder Thistle|Electrifies opponents, draining stamina by 25 units|-25|Thunder|35
-Thunderstrike Toffee|Strikes opponents with thunderous power, reducing stamina by 30 units|-30|Thunder|40
-Whimsical Waffle|Infuses stamina with whimsy, adding 10 units|10|Stamina|15
-Reflective Rose|Reflects opponent's attack, preventing stamina loss|1|Counter|32
-Spectral Sugar|Enhances stamina with spectral energy, adding 18 units|18|Stamina|25
-Amethyst Amulet|Protects against intense poison attacks|3|Defensive|28
-Inferno Infusion|Infuses stamina with infernal power, adding 25 units|25|Stamina|38
-Arctic Aura|Creates a chilling aura, reducing opponent's stamina by 22 units|-22|Ice|30
-Gelatinous Guardian|Summons a gelatinous guardian to absorb attacks, reducing stamina loss|2|Defensive|40
-Dazzling Dewdrop|Dazzles opponents with a radiant dewdrop, reducing stamina by 12 units|-12|Light|18
-Viper's Venom|Infuses stamina with venom, adding 12 units|12|Stamina|20
-Illusionary Ice|Creates an illusionary ice barrier, reducing opponent's stamina by 15 units|-15|Ice|25
+Enchanted Elixir|Infuses stamina with vitality, adding 15 units|15|stamina|15
+Venomous Vapor|Drains opponent's stamina by 15 units (moderate)|-15|attack|15
+Mystic Muffin|Bestows magical stamina increase of 20 units|20|stamina|20
+Bubbly Barrier|This bubbly candy will shield you against attacks!|18|shield|1
+Radiant Ruby|This radiant piece of candy gives you the ability to be able to tank an attack|1|shield|1
+Noxious Nectar|Unleashes a strong poison on opponents, decreasing stamina by 20 units|-20|attack|-20
+Blazing Bonbon|Ignites stamina with fiery energy, granting a boost of 12 units|12|stamina|12
+Shadow Shifter|Obscures opponent's stamina, reducing it by 18 units (intense)|-18|attack|-18
+Frosty Frosting|Chills stamina, causing a reduction of 15 units|-15|attack|-15
+Reflective Shield|Protects player with a super shiny shield|15|shield|1
+Mirage Mint|Creates illusions to confuse opponents, protecting against moderate poison|2|shield|2
+Thunder Thistle|Electrifies opponents, draining stamina by 25 units|-25|attack|-25
+Thunderstrike Toffee|Strikes opponents with thunderous power, reducing stamina by 30 units|-30|attack|-30
+Whimsical Waffle|Infuses stamina with whimsy, adding 10 units|10|stamina|10
+Spectral Sugar|Enhances stamina with spectral energy, adding 18 units|18|stamina|18
+Amethyst Amulet|With this gem of a candy, you can protect  yourself|20|shield|1
+Inferno Infusion|Infuses stamina with infernal power, adding 25 units|25|stamina|25
+Arctic Aura|Creates a chilling aura, reducing opponent's stamina by 22 units|-22|attack|-22
+Gelatinous Guardian|Summons a gelatinous guardian to absorb attacks, reducing stamina loss|2|shield|2
+Dazzling Dewdrop|Dazzles opponents with a radiant dewdrop, reducing stamina by 12 units|-12|attack|-12
+Viper's Venom|Infuses stamina with venom, adding 12 units|12|stamina|12
+Illusionary Ice|Creates an illusionary ice barrier, reducing opponent's stamina by 15 units|-15|attack|-15

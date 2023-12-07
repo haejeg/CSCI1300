@@ -139,7 +139,17 @@ int getTileType(int tile) {
 
 bool drawCard(Board& board, int playerid) {
     srand((int) time(0));
+    string str = "";
     int randDraw = rand() % 3;
+    if (randDraw == 0) {
+        str = "Cotton Candy Magenta";
+    }
+    else if (randDraw == 1) {
+        str = "Minty Green";
+    }
+    else {
+        str = "Bubblegum Blue";
+    }
     int willDouble = rand() % 100;
     int playerPosition = board.getPlayerPosition(playerid);
     for (int i = playerPosition + 1; i < 82; i++) {
@@ -148,17 +158,21 @@ bool drawCard(Board& board, int playerid) {
                 for (int j = i + 1; j < 81; j++) {
                     if (randDraw == getTileType(j)) {
                         board.setPlayerPosition(j, playerid);
+                        str.insert(0, "Double ");
+                        cout<<board.getPlayerName(playerid)<<" drew a "<<str<<" card."<<endl;
                         return false;
                     }
                 }
             }
             else {
                 board.setPlayerPosition(i, playerid);
+                cout<<board.getPlayerName(playerid)<<" drew a "<<str<<" card."<<endl;
                 return false;
             }
         }
     }
     board.setPlayerPosition(83, playerid);
+    
     return true;
 }
 
@@ -201,6 +215,7 @@ CandyStore getCandyStore(Board board, int position, CandyStore candy_stores[]) {
 // Create a special tiles (no class needed because there's nothing to specifically store besides the tile numbers)
 void generateSpecialTiles(Board board, int percentage) {
     srand((int) time(0));
+    int count = 0;
     // for all 83 tiles
     for (int i = 0; i < 83; i++) {
         // if random is within percentage
@@ -220,6 +235,10 @@ void generateSpecialTiles(Board board, int percentage) {
             }
             // add to special tiles in board object
             board.addSpecialTile(tempTile);
+            count++;
+        }
+        if (count > 5) {
+            return;
         }
     }
 }
@@ -327,7 +346,7 @@ int doCalamity(Board& board, int playerid, int tile) {
         cout<<"Oh no! You encountered a calamity!"<<endl;
         int calamityType = rand() % 100;
         if (calamityType <= 30) {
-            cout<<"Oh no! Candy Bandits have swiped your gold coins!"<<endl;
+            cout<<"Candy Bandits have swiped your gold coins!"<<endl;
             int coinLoss = rand() % 10 + 1;
             board.setPlayerGold(playerid, board.getPlayerGold(playerid) - coinLoss);
             cout<<"You've lost "<<coinLoss<<" gold coins from this encounter :("<<endl;
@@ -335,7 +354,7 @@ int doCalamity(Board& board, int playerid, int tile) {
             return 0;
         }
         else if (calamityType <= 65) {
-            cout<<"Oh dear! You got lost in the lollipop labyrinth!"<<endl;
+            cout<<"You got lost in the lollipop labyrinth!"<<endl;
             cout<<"You can recover this damage by winning in rock paper scissors."<<endl;
             if (!playRockPaperScissors()) {
                 cout<<"You've lost a turn from this encounter :("<<endl;
@@ -347,7 +366,7 @@ int doCalamity(Board& board, int playerid, int tile) {
             }
         }
         else if (calamityType <= 90) {
-            cout<<"Watch out! A candy avalanche has struck!"<<endl;
+            cout<<"A candy avalanche has struck!"<<endl;
             cout<<"You can recover this damage by winning in rock paper scissors."<<endl;
             if (!playRockPaperScissors()) {
                 int staminaLost = rand() % 6 + 5;
@@ -362,7 +381,7 @@ int doCalamity(Board& board, int playerid, int tile) {
             }
         }
         else {
-            cout<<"Oops! You are stuck in a sticky taffy trap!"<<endl;
+            cout<<"You are stuck in a sticky taffy trap!"<<endl;
             cout<<"You can escape the taffy trap by using a magical candy in your inventory!"<<endl;
             if (board.getPlayerCandyAmount(playerid) == 0) {
                 cout<<"You don't have any candies in your inventory! You've lost a turn from this encounter :("<<endl;
@@ -627,6 +646,12 @@ int main() {
         candy_stores[i].fillCandy(candies);
     }
 
+    generateSpecialTiles(board, 25); // generate special tiles with 25% chance
+
+    generateTreasureTiles(board); // generate treasure tiles
+
+    int turnsLost[numberOfPlayers] = {0}; // turns lost array (for calamities n stuff)
+
     bool win = false; // win condition
     int winner = 0; // winner index for later
 
@@ -638,6 +663,12 @@ int main() {
         int len = players.size(); // get length of players vector
         int i = 0;
         while (i < len) { // iterate through players
+            if (turnsLost[i] > 0) { // if player has lost a turn, skip their turn
+                cout<<"Player "<<board.getPlayerName(i)<<" doesn't have a turn this round. They will be skipped."<<endl;
+                turnsLost[i]--;
+                i++;
+                continue;
+            }
             int optionNum; // option number for the menu
             cout<<"It's "<<players.at(i).getName()<<"'s turn"<<endl; // print player name
             cout<<"Choose an option:"<<endl; // print menu
@@ -668,7 +699,9 @@ int main() {
                             board.setPlayerPosition(board.getPlayerPosition(j) - 1, j); // set player position to previous position
                             int randRobber = rand() % 26 + 5;
                             board.setPlayerGold(i, board.getPlayerGold(i) - randRobber); // subtract random gold from player
+                            cout<<"Player "<<board.getPlayerName(i)<<" has been robbed by Player "<<board.getPlayerName(j)<<"! They've lost "<<randRobber<<" gold."<<endl;
                             board.setPlayerGold(j, board.getPlayerGold(j) + randRobber); // add random gold to player  
+                            cout<<"Player "<<board.getPlayerName(j)<<" has stolen "<<randRobber<<" gold from Player "<<board.getPlayerName(i)<<"!"<<endl;
                         }
                     }
                     
@@ -724,12 +757,8 @@ int main() {
                         // do calamity stuff
                         int getCalamityValue = doCalamity(board, i, board.getPlayerPosition(i));
                         if (getCalamityValue == 1) {
-                            // if it's a candy bandit, lose a turn
-                            i++;
-                        }
-                        else if (getCalamityValue == -1) {
                             // if it's a gumdrop, lose a turn and stamina
-                            i++;
+                            turnsLost[i]++;
                         }
                     }
                     i++; // move turns
@@ -740,7 +769,7 @@ int main() {
                     i++; // move turns
                     break;
                 case 3:
-                    cout<<"Player "<<board.getPlayerName(i)<<"'s stats:"<<endl;
+                    cout<<"Player "<<board.getPlayerName(i)<<"'s stats:"<<i<<endl;
                     cout<<"Character: "<<board.getPlayerCharacter(i)<<endl;
                     cout<<"Stamina: "<<board.getPlayerStamina(i)<<endl;
                     cout<<"Gold: "<<board.getPlayerGold(i)<<endl;
