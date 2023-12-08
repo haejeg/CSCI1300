@@ -3,5 +3,5 @@ Caramel_Corey|100|28|Mystic Muffin,Reflective Shield,Frosty Frosting,Viper's Ven
 Rainbow_Riley|100|45|Thunder Thistle,Thunderstrike Toffee,Whimsical Waffle,Reflective Rose
 Sugarplum_Sam|100|40|Spectral Sugar,Amethyst Amulet,Inferno Infusion,Arctic Aura
 Glowing_Grace|100|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
-test|100|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
-test|100|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
+testt|100|32|Enchanted Elixir,Noxious Nectar,Illusionary Ice,Thunderstrike Toffee
+test|50|32|Enchanted Elixir,Venomous Vapor,Amethyst Amulet,Amethyst Amulet

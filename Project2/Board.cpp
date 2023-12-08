@@ -206,6 +206,13 @@ bool Board::setPlayerPosition(int new_position, int playerid)
     return false;
 }
 
+vector<specialTile> Board::getSpecialTiles() const {
+    return _special_tiles;
+}
+
+vector<specialTile> Board::getTreasureTiles() const {
+    return _treasure_tiles;
+}
 
 string Board::getPlayerName(int playerid) const
 {

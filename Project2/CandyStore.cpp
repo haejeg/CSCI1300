@@ -1,5 +1,6 @@
 #include "CandyStore.h"
 #include "Utilities.h"
+#include "Candy.h"
 #include "Board.h"
 
 // Constructors
@@ -39,7 +40,13 @@ void CandyStore::displayCandies() {
     // if there are candies iterate through all candies and print
     cout<<"Candies present in store "<<_candy_store_name<<" are "<<endl;
     for (int i = 0; i < _candy_amount; i++) {
-        cout<<_inventory.at(i).getName()<<endl;
+        cout<<"-------------------------------------"<<endl;
+        cout<<_inventory.at(i).name<<endl;
+        cout<<_inventory.at(i).description<<endl;
+        cout<<"Price: "<<_inventory.at(i).price<<endl;
+        cout<<"Type: "<<_inventory.at(i).candy_type<<endl;
+        cout<<"Effect: "<<_inventory.at(i).effect<<endl;
+        cout<<"-------------------------------------"<<endl;
     }
 }
 
@@ -54,7 +61,7 @@ bool CandyStore::removeCandy(string name) {
     int lastIdx = 0;
     bool res = false;
     for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
-        if (toLowerCase(_inventory[i].getName()) == toLowerCase(name)) {
+        if (toLowerCase(_inventory[i].name) == toLowerCase(name)) {
             lastIdx = i;
             res = true;
         }
@@ -62,10 +69,10 @@ bool CandyStore::removeCandy(string name) {
 
     if (res) {
         _candy_amount--;
-        _inventory[lastIdx].setName("");
-        _inventory[lastIdx].setDescription("");
-        _inventory[lastIdx].setPrice(0);
-        _inventory[lastIdx].setCandyType("");
+        _inventory[lastIdx].name = "";
+        _inventory[lastIdx].description = "";
+        _inventory[lastIdx].price = 0.0;
+        _inventory[lastIdx].candy_type = "";
     }
 
     return res;
@@ -74,7 +81,7 @@ bool CandyStore::removeCandy(string name) {
 // find candy in store
 Candy CandyStore::findCandy(string name) {
     for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
-        if (toLowerCase(_inventory[i].getName()) == toLowerCase(name)) {
+        if (toLowerCase(_inventory[i].name) == toLowerCase(name)) {
             return _inventory[i];
         }
     }

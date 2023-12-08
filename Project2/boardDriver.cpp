@@ -1,8 +1,8 @@
 #include "Board.h"
 #include "CandyStore.h"
 #include "Player.h"
-#include "Utilities.h"
 #include "Candy.h"
+#include "Utilities.h"
 #include <iostream>
 #include <stdlib.h>
 #include <random>
@@ -44,15 +44,15 @@ vector<Candy> readCandy(string file_name, vector<Candy> candies) {
             string sep;
             // make this neater if i have the time <-
             getline(ss, sep, '|');
-            candy.setName(sep);
+            candy.name = sep;
             getline(ss, sep, '|');
-            candy.setDescription(sep);
+            candy.description = sep;
             getline(ss, sep, '|');
-            candy.setPrice(stod(sep));
+            candy.price = abs(stod(sep)); // i had to use abs because chatgpt does not give me consistent numerical results for candies generation (sometimes stuff will be negative for no reason)
             getline(ss, sep, '|');
-            candy.setCandyType(sep);
+            candy.candy_type = sep;
             getline(ss, sep);
-            candy.setEffect(stoi(sep));
+            candy.effect = abs(stoi(sep)); // i had to use abs because chatgpt does not give me consistent numerical results for candies generation (sometimes stuff will be negative for no reason)
             // make sure it's always in this order or its index oop
             candies.push_back(candy);
         }
@@ -66,7 +66,7 @@ vector<Candy> readCandy(string file_name, vector<Candy> candies) {
 Candy findCandy(string name, vector<Candy> candies) {
     int len = candies.size();
     for (int i = 0; i < len; i++) {
-        if (toLowerCase(name) == toLowerCase(candies.at(i).getName())) {
+        if (toLowerCase(name) == toLowerCase(candies.at(i).name)) {
             return candies.at(i);
         }
     }
@@ -137,7 +137,12 @@ int getTileType(int tile) {
     }
 }
 
-bool drawCard(Board& board, int playerid) {
+struct Card { // i really dont need this but this is in minimum requirements
+    string color;
+    int feature;
+};
+
+bool drawCard(Board& board, int playerid, vector<Card>& cards) {
     srand((int) time(0));
     string str = "";
     int randDraw = rand() % 3;
@@ -160,6 +165,7 @@ bool drawCard(Board& board, int playerid) {
                         board.setPlayerPosition(j, playerid);
                         str.insert(0, "Double ");
                         cout<<board.getPlayerName(playerid)<<" drew a "<<str<<" card."<<endl;
+                        cards.push_back(Card{str, j});
                         return false;
                     }
                 }
@@ -167,10 +173,12 @@ bool drawCard(Board& board, int playerid) {
             else {
                 board.setPlayerPosition(i, playerid);
                 cout<<board.getPlayerName(playerid)<<" drew a "<<str<<" card."<<endl;
+                cards.push_back(Card{str, i});
                 return false;
             }
         }
     }
+    cards.push_back(Card{str, 83});
     board.setPlayerPosition(83, playerid);
     
     return true;
@@ -214,28 +222,36 @@ CandyStore getCandyStore(Board board, int position, CandyStore candy_stores[]) {
 }
 
 // Create a special tiles (no class needed because there's nothing to specifically store besides the tile numbers)
-void generateSpecialTiles(Board board, int percentage) {
+void generateSpecialTiles(Board& board, int percentage) {
     srand((int) time(0));
     int count = 0;
     // for all 83 tiles
-    for (int i = 0; i < 83; i++) {
+    for (int i = 1; i < 82; i++) {
         // if random is within percentage
         if (rand() % 100 <= percentage) {
             specialTile tempTile;
             tempTile.index = i;
-            switch(rand() % 3 + 1) { // because 4 random tiles
+            // generate random tile type
+            int randTile = rand() % 4 + 1;
+            switch(randTile) { // because 4 random tiles
                 case 1:
                     tempTile.tile_type = "shortcut";
+                    break;
                 case 2:
                     tempTile.tile_type = "icecream";
+                    break;
                 case 3:
                     tempTile.tile_type = "gumdrop";
+                    break;
                 case 4:
                     tempTile.tile_type = "gingerbread";
+                    break;
                 //no default needed because it's impossible
             }
             // add to special tiles in board object
+            cout<<"Special tile generated at position "<<i<<endl;
             board.addSpecialTile(tempTile);
+            cout<<"Special  tile type: "<<tempTile.tile_type<<endl;
             count++;
         }
         if (count > 5) {
@@ -244,22 +260,22 @@ void generateSpecialTiles(Board board, int percentage) {
     }
 }
 
-int doSpecialTile(Board& board, int position, int playerid) {
+int doSpecialTile(Board& board, int position, int playerid, vector<Card>& cards) {
     if (board.getSpecialTile(position).tile_type == "shortcut") {
         cout<<"You've landed on a shortcut tile! Move 4 steps forward."<<endl;
         if (!board.setPlayerPosition(board.getPlayerPosition(playerid) + 4, playerid)) {
             return 1;
         };
-        return 2;
+        return 0;
     } else if (board.getSpecialTile(position).tile_type == "icecream") {
         cout<<"You've landed on an icecream tile! Draw another card."<<endl;
-        drawCard(board, playerid);
+        drawCard(board, playerid, cards);
     } else if (board.getSpecialTile(position).tile_type == "gumdrop") {
         srand((int) time(0));
         int randNum = rand() % 6 + 5;
         cout<<"You've landed on a gumdrop tile.. You will be taken 4 steps backwards and also lost "<< randNum <<" coins in that process"<<endl;
         if (!board.setPlayerPosition(board.getPlayerPosition(playerid) - 4, playerid)) {
-            return -1;
+            return -2;
         }
     } else if (board.getSpecialTile(position).tile_type == "gingerbread") {
         cout<<"You've landed on a gingerbread tile! You will be taken to your previous position"<<endl;
@@ -267,11 +283,11 @@ int doSpecialTile(Board& board, int position, int playerid) {
             return -1;
         }
     }
-    return 2;
+    return 0;
 }
 
 // Generate hidden treasures (no class needed because there's nothing to specifically store besides the tile numbers)
-void generateTreasureTiles(Board board) { // pass this by reference so that i dont have to return anything (hassle)
+void generateTreasureTiles(Board& board) { // pass this by reference so that i dont have to return anything (hassle)
     srand((int) time(0));
     // iterate it 3 times since there should be 3 hidden treasures across the map
     for (int i = 0; i < 3; i++) {
@@ -424,7 +440,7 @@ void giveRandomTreasure(Board board, int playerid) {
     }
     else if (randNum <= 40) { // set gold randomly between 20 and 40
         int randGold = rand() % 21 + 20;
-        cout<<"You've found a treasure chest full of gold.. You've gained "<<randGold<<"gold."<<endl;
+        cout<<"You've found a treasure chest full of gold.. You've gained "<<randGold<<" gold."<<endl;
         board.setPlayerGold(playerid, board.getPlayerGold(playerid) + randGold);
     }
     else if (randNum <= 70) { // shield treasure
@@ -436,18 +452,18 @@ void giveRandomTreasure(Board board, int playerid) {
         int randChance = rand() % 100;
         if (randChance <= 70) {
             Candy tempCandy;
-            tempCandy.setCandyType("stamina");
-            tempCandy.setEffect(50);
-            tempCandy.setName("Jellybean of Vigor");
-            tempCandy.setDescription("A magical jellybean that will restore 50 units of stamina.");
+            tempCandy.candy_type = "stamina";
+            tempCandy.effect = 50;
+            tempCandy.name = "Magical Jellybean";
+            tempCandy.description = "A magical jellybean that will give you a stamina boost";
             board.addCandyToPlayer(playerid, tempCandy);
         }
         else {
             Candy tempCandy;
-            tempCandy.setCandyType("treasure");
-            tempCandy.setEffect(30);
-            tempCandy.setName("Treasure Hunter's Truffle");
-            tempCandy.setDescription("A magical truffle that will give you a chance at obtaining a different treasure");
+            tempCandy.candy_type = "treasure";
+            tempCandy.effect = 0;
+            tempCandy.name = "Magical Truffle";
+            tempCandy.description = "A magical truffle that will give you a chance at obtaining a different treasure";
             board.addCandyToPlayer(playerid, tempCandy);
         }
     }
@@ -487,6 +503,7 @@ bool checkRiddles(vector<Riddle>& riddles) {
     int randomRiddle = rand() % riddles.size();
     cout<<"Riddle: "<<riddles.at(randomRiddle).question<<endl; // print random riddle
     string answer;
+    cin.ignore();
     getline(cin, answer);
     if (toLowerCase(answer) == toLowerCase(riddles.at(randomRiddle).answer)) { // if answer is correct
         cout<<"Correct!"<<endl; 
@@ -509,11 +526,11 @@ void printCharacters(vector<Character> characters) {
         for (int j = 0; j < len2; j++) {
             // if it's the last candy, don't print a comma
             if (j == len2 - 1) {
-                cout << characters.at(i).candies.at(j).getName() << endl;
+                cout << characters.at(i).candies.at(j).name << endl;
                 break;
             }
             else {
-                cout << characters.at(i).candies.at(j).getName() << ", ";
+                cout << characters.at(i).candies.at(j).name << ", ";
             }
         }
         cout << endl;
@@ -527,58 +544,81 @@ void useCandy(Board& board, int playerid, vector<Candy> candies) {
     cout<<"Here's the inventory:"<<endl;
     board.printPlayerInventory(playerid);
     string candyName;
-    cout<<"Enter the name of the candy you want to use"<<endl;
+    cout<<"Enter the name of the candy you want to use (or type exit to leave)"<<endl;
     getline(cin, candyName);
-    while (!board.removeCandyFromPlayer(playerid, candyName)) { // if the candy is not in the inventory, ask again, since this uses removeCandy function it will automatically remove it from the inventory if it's valid
+    while (!board.removeCandyFromPlayer(playerid, candyName) && candyName != "exit") { // if the candy is not in the inventory, ask again, since this uses removeCandy function it will automatically remove it from the inventory if it's valid
         cout<<"Invalid candy! Enter a valid candy"<<endl;
         getline(cin, candyName);
+    }
+    if (candyName == "exit") {
+        return;
     }
     Candy candy = findCandy(candyName, candies); // find the candy in the candies vector
 
     // what player do you want to use this on
     cout<<"Enter the player name you want to use this candy on, it can be yourself (or type exit to leave)"<<endl;
-    clearInput();
     string name;
     getline(cin, name);
     while (toLowerCase(name) != "exit") {
-        if (toLowerCase(name) == toLowerCase(board.getPlayerName(playerid))) {
-            //if used on self
-            cout<<"You've used the candy on yourself!"<<endl;
-            // if stamina candy, add stamina
-            if (candy.getCandyType() == "stamina") {
-                board.setPlayerStamina(playerid, board.getPlayerStamina(playerid) + candy.getEffect());
-                cout<<"Your stamina went from "<<board.getPlayerStamina(playerid)<<" to "<<board.getPlayerStamina(playerid) + candy.getEffect()<<"!"<<endl;
-                return;
-            }
-            return;
-        }
-        else { // if not used on self
-            int len = board.getPlayers().size();
-            // loop through all players and make sure that the name is valid
-            for (int i = 0; i < len; i++) {
-                if (toLowerCase(name) == toLowerCase(board.getPlayerName(i))) {
-                    // if it is, use the candy on that player
-                    // if stamina candy, add stamina
-                    if (candy.getCandyType() == "stamina") {
-                        board.setPlayerStamina(i, board.getPlayerStamina(i) + candy.getEffect());
-                        cout<<"You've used the candy on "<<board.getPlayerName(i)<<"!"<<endl;
-                        cout<<"Their stamina went from "<<board.getPlayerStamina(i)<<" to "<<board.getPlayerStamina(i) + candy.getEffect()<<"!"<<endl;
-                        return;
-                    }
+        int len = board.getPlayers().size();
+        // loop through all players and make sure that the name is valid
+        for (int i = 0; i < len; i++) {
+            if (toLowerCase(name) == toLowerCase(board.getPlayerName(i))) {
+                // if it is, use the candy on that player
+                // if stamina candy, add stamina
+                cout<<"Candy type: "<<candy.candy_type<<endl;
+                if (candy.candy_type == "stamina") {
+                    cout<<"Stamina of player "<<board.getPlayerName(i)<<" before: "<<board.getPlayerStamina(i)<<endl;
+                    board.setPlayerStamina(i, board.getPlayerStamina(i) + candy.effect);
+                    cout<<"You've used the candy on "<<board.getPlayerName(i)<<"!"<<endl;
+                    cout<<"Their stamina went to "<<board.getPlayerStamina(i)<<"!"<<endl;
+                    cout<<"Here's the inventory after the change:"<<endl;
+                    board.printPlayerInventory(playerid);
+                    return;
                 }
-                return;
+                else if (candy.candy_type == "shield") {
+                    cout<<"Shield of player "<<board.getPlayerName(i)<<" before: "<<board.getPlayerShield(i)<<endl;
+                    board.setPlayerShield(i, true);
+                    cout<<"You've used the candy on "<<board.getPlayerName(i)<<"!"<<endl;
+                    cout<<"Their shield is now "<<board.getPlayerShield(i)<<"!"<<endl;
+                    cout<<"Here's the inventory after the change:"<<endl;
+                    board.printPlayerInventory(playerid);
+                    return;
+                }
+                else if (candy.candy_type == "attack") {
+                    cout<<"Stamina of player "<<board.getPlayerName(i)<<" before: "<<board.getPlayerStamina(i)<<endl;
+                    board.setPlayerStamina(i, board.getPlayerStamina(i) - candy.effect);
+                    cout<<"You've used the candy on "<<board.getPlayerName(i)<<"!"<<endl;
+                    cout<<"Their stamina went to "<<board.getPlayerStamina(i)<<"!"<<endl;
+                    cout<<"Here's the inventory after the change:"<<endl;
+                    board.printPlayerInventory(playerid);
+                    return;
+                }
+                else if (candy.candy_type == "treasure") {
+                    cout<<"You've used the candy on "<<board.getPlayerName(i)<<"!"<<endl;
+                    giveRandomTreasure(board, i);
+                    cout<<"Here's the inventory after the change:"<<endl;
+                    board.printPlayerInventory(playerid);
+                    return;
+                }
             }
-            cout<<"Invalid player! Enter a valid player name"<<endl;
-            getline(cin, name);
         }
+        cout<<"Invalid player! Enter a valid player name"<<endl;
+        getline(cin, name);
     }
-    // print inventory after change
-    cout<<"Here's the inventory after the change:"<<endl;
-    board.printPlayerInventory(playerid);
 }
+
 
 int main() {
     // vector for selected characters for each player, and a vector for the list of characters
+    ofstream debug;
+    debug.open("debug.txt");
+    if (debug.fail()) {
+        cout<<"Debug error. Make sure debug.txt is modifiable."<<endl;
+        debug.close();
+    }
+
+    vector<Card> cards;
     vector<Character> characters;
     vector<Player> players;
     int numberOfPlayers = 0;
@@ -600,7 +640,8 @@ int main() {
 
     // read characters. this needs to be after candies because the candies will be used to determine the character traits
     characters = readCharacters("characters.txt", characters, candies);
-    if (numberOfPlayers > characters.size()) { // if number of players are greater than the number of characters stop game
+    int charLen = characters.size();
+    if (numberOfPlayers > charLen) { // if number of players are greater than the number of characters stop game
         cout << "Invalid input! Restart the game with a valid amount of players" << endl;
         return -1;
     }
@@ -643,16 +684,34 @@ int main() {
     // generate candy stores
     generateCandyStores(board, candy_stores);
 
+    debug<<"Candy stores generated"<<endl;
+    for (int i = 0; i < 3; i++) {
+        debug<<"Candy store "<<i<<" position: "<<candy_stores[i].getCandyStorePosition()<<endl;
+    }
+
     // add candies to the candy stores using fillcandy function
     for (int i = 0; i < 3; i++) {
         candy_stores[i].fillCandy(candies);
     }
 
-    generateSpecialTiles(board, 25); // generate special tiles with 25% chance
+    generateSpecialTiles(board, 12); // I decided not to make it a 25% chance because it seems to fill up too quickly (and it's not really fun to play with)
+
+    debug<<"Special tiles generated"<<endl;
+    int specialLen = board.getSpecialTiles().size();
+    for (int i = 0; i < specialLen; i++) {
+        debug<<"Special tile "<<i<<" position: "<<board.getSpecialTiles().at(i).index<<endl;
+    }
 
     generateTreasureTiles(board); // generate treasure tiles
 
-    int turnsLost[numberOfPlayers] = {0}; // turns lost array (for calamities n stuff)
+    debug<<"Treasure tiles generated"<<endl;
+    int treasureLen = board.getTreasureTiles().size();
+    for (int i = 0; i < treasureLen; i++) {
+        debug<<"Treasure tile "<<i<<" position: "<<board.getTreasureTiles().at(i).index<<endl;
+    }
+
+    vector<int> turnsLost(numberOfPlayers); // vector for turns lost for each player
+
 
     bool win = false; // win condition
     int winner = 0; // winner index for later
@@ -668,6 +727,12 @@ int main() {
             if (turnsLost[i] > 0) { // if player has lost a turn, skip their turn
                 cout<<"Player "<<board.getPlayerName(i)<<" doesn't have a turn this round. They will be skipped."<<endl;
                 turnsLost[i]--;
+                i++;
+                continue;
+            }
+            if (board.getPlayerStamina(i) <= 0) { // if player has no stamina, skip their turn
+                cout<<"Player "<<board.getPlayerName(i)<<" has no stamina left. They will be skipped."<<endl;
+                turnsLost[i]+=2;
                 i++;
                 continue;
             }
@@ -688,15 +753,32 @@ int main() {
                     // this is impossible since we already checked for valid input (it's just for jokes)
                     cout<<"Something happened here..."<<endl;
                     break;
-                case 1:
+                case 1: {
                     // draw card, move player, check if player is on candy store, check if player is on special tile, or if on a treasure tile
-                    // if (drawCard(board, i)) {
-                    //     winner = i;
-                    //     win = true;
-                    // }
+                    // srand((int) time(0));
+                    int marshHail = rand() % 100;
+                    if (marshHail <= 5) { 
+                        int randTiles = rand() % 4 + 1;
+                        cout<<"A marshmellow hailstorm has hit the board! Every player on the board goes back "<<randTiles<<" tiles!"<<endl;
+                        for (int j = 0; j < len; j++) {
+                            board.setPlayerPosition(board.getPlayerPosition(j) - randTiles, j);
+                        }
+                        i++;
+                        break;
+                    }
+                    }
+
+                    if (drawCard(board, i, cards)) {
+                        winner = i;
+                        win = true;
+                    }
 
                     // move player to candy store for debugging purposes
-                    board.setPlayerPosition(candy_stores[0].getCandyStorePosition(), i);
+                    // board.setPlayerPosition(candy_stores[0].getCandyStorePosition(), i);
+
+                    // board.setPlayerPosition(board.getSpecialTiles().at(2).index, i);
+
+                    // board.setPlayerPosition(board.getTreasureTiles().at(0).index, i);
 
                     // same tile constraints (if two players are on the same tile, the first player will be moved back to the previous tile)
                     for (int j = 0; j < len; j++) {
@@ -709,8 +791,6 @@ int main() {
                             cout<<"Player "<<board.getPlayerName(j)<<" has stolen "<<randRobber<<" gold from Player "<<board.getPlayerName(i)<<"!"<<endl;
                         }
                     }
-
-                    cout<<"Is position candy store: "<<board.isPositionCandyStore(board.getPlayerPosition(i))<<endl;
                     
                     if (board.isPositionCandyStore(board.getPlayerPosition(i))) { // check if player is on candy store
                         //print candystore
@@ -721,7 +801,7 @@ int main() {
                         getline(cin, candy);
                         // if candy is not in the candy store, ask again or if they want to leave type exit
                         cout<<"Candy store position: "<<getCandyStore(board, board.getPlayerPosition(i), candy_stores).getCandyStorePosition()<<endl;
-                        while (getCandyStore(board, board.getPlayerPosition(i), candy_stores).findCandy(candy).getName() == "" && toLowerCase(candy) != "exit") { 
+                        while (getCandyStore(board, board.getPlayerPosition(i), candy_stores).findCandy(candy).name == "" && toLowerCase(candy) != "exit") { 
                             cout<<"Invalid candy! Enter a valid candy"<<endl;
                             getline(cin, candy);
                         }
@@ -731,23 +811,24 @@ int main() {
                         }
                         else { // if they don't type exit then add the candy to the player's inventory and subtract the candy cost gold
                             board.addCandyToPlayer(i, findCandy(candy, candies));
-                            board.setPlayerGold(i, board.getPlayerGold(i) - findCandy(candy, candies).getPrice());
-                            cout<<"You've bought a "<<findCandy(candy, candies).getName()<<"!"<<endl;
+                            board.setPlayerGold(i, board.getPlayerGold(i) - findCandy(candy, candies).price);
+                            cout<<"You've bought a "<<findCandy(candy, candies).name<<"!"<<endl;
                         }
                     }
                     else if (board.isSpecialTile(board.getPlayerPosition(i))) { // check if player is on special tile
                         // do special tile stuff
                         specialTile tile = board.getSpecialTile(board.getPlayerPosition(i));
-                        int getSpecialValue = doSpecialTile(board, board.getPlayerPosition(i), i);
+                        int getSpecialValue = doSpecialTile(board, board.getPlayerPosition(i), i, cards);
                         if (getSpecialValue == 1) { // if it's a shortcut tile go forward 4 steps
                             winner = i;
                             win = true;
                         }
                         else if (getSpecialValue == -1) { // if it's a gumdrop tile go back 4 steps
-                            board.setPlayerPosition(0, i);
-                        }
-                        else if (getSpecialValue == 0) { // if it's a gingerbread tile return back to previous tile
                             board.setPlayerPosition(board.getPreviousPlayerPosition(i), i);
+                        }
+                        else if (getSpecialValue == -2) {
+                            board.setPlayerPosition(board.getPlayerPosition(i) - 4, i);
+                            turnsLost[i]++;
                         }
                         // other stuff doesn't matter since it's just icecream
                     }
@@ -790,13 +871,55 @@ int main() {
             }
             cout<<"Board after turn:"<<endl;
             board.displayBoard();
-            clearInput();
         }
     }
     while(!win);
     
-    cout<<"You've reached the end of the board! Congratulations Player "<<players.at(winner).getName()<<endl;
+    board.setPlayerPosition(83, winner);
     board.displayBoard();
+    cout<<"You've reached the end of the board! Congratulations Player "<<players.at(winner).getName()<<endl;
+    
+    cout<<"Here are your stats:"<<endl; 
+    for (int i = 0; i < numberOfPlayers; i++) {
+        cout<<"Player "<<board.getPlayerName(i)<<"'s stats:"<<i<<endl;
+        cout<<"Character: "<<board.getPlayerCharacter(i)<<endl;
+        cout<<"Stamina: "<<board.getPlayerStamina(i)<<endl;
+        cout<<"Gold: "<<board.getPlayerGold(i)<<endl;
+        cout<<"Inventory: "<<endl;
+        board.printPlayerInventory(i);
+    }
+    cout<<"ALL CARDS DRAWN"<<endl;
+    int cardlen = cards.size();
+    for (int i = 0; i < cardlen; i++) {
+        cout<<"Card number "<<i+1<<": ";
+        cout<<cards.at(i).color<<" | Position: "<<cards.at(i).feature<<endl;
+    }
+
+    ofstream fout;
+    fout.open("stats.txt");
+    if (fout.fail()) {
+        cout<<"Failed to open file"<<endl;
+        return -1;
+    }
+    fout<<"STATS ---------------------------------------"<<endl;
+    for (int i = 0; i < numberOfPlayers; i++) {
+        fout<<"Player "<<board.getPlayerName(i)<<"'s stats:"<<i<<endl;
+        fout<<"Character: "<<board.getPlayerCharacter(i)<<endl;
+        fout<<"Stamina: "<<board.getPlayerStamina(i)<<endl;
+        fout<<"Gold: "<<board.getPlayerGold(i)<<endl;
+        fout<<"Candies: | ";
+        int len = board.getPlayerCandies(i).size();
+        for (int j = 0; j < len; j++) {
+            fout<<board.getPlayerCandies(i).at(j).name<<" | ";
+        }
+        fout<<endl;
+    }
+    fout<<"ALL CARDS DRAWN"<<endl;
+    for (int i = 0; i < cardlen; i++) {
+        fout<<"Card number "<<i+1<<": ";
+        fout<<cards.at(i).color<<" | Position: "<<cards.at(i).feature<<endl;
+    }
+    fout.close();
 
     return 0;
 }

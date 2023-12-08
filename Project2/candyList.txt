@@ -1,6 +1,6 @@
-Enchanted Elixir|Infuses stamina with vitality, adding 15 units|15|stamina|15
+Enchanted Elixir|Infuses stamina with vitality, adding 15 units|15|stamina|11
 Venomous Vapor|Drains opponent's stamina by 15 units (moderate)|-15|attack|15
-Mystic Muffin|Bestows magical stamina increase of 20 units|20|stamina|20
+Mystic Muffin|Bestows magical stamina increase of 20 units|20|stamina|13
 Bubbly Barrier|This bubbly candy will shield you against attacks!|18|shield|1
 Radiant Ruby|This radiant piece of candy gives you the ability to be able to tank an attack|1|shield|1
 Noxious Nectar|Unleashes a strong poison on opponents, decreasing stamina by 20 units|-20|attack|-20
@@ -13,7 +13,7 @@ Thunder Thistle|Electrifies opponents, draining stamina by 25 units|-25|attack|-
 Thunderstrike Toffee|Strikes opponents with thunderous power, reducing stamina by 30 units|-30|attack|-30
 Whimsical Waffle|Infuses stamina with whimsy, adding 10 units|10|stamina|10
 Spectral Sugar|Enhances stamina with spectral energy, adding 18 units|18|stamina|18
-Amethyst Amulet|With this gem of a candy, you can protect  yourself|20|shield|1
+Amethyst Amulet|You found a gem of a candy! (literally), use this candy whenever you want to gamble on a treasure.|20|treasure|1
 Inferno Infusion|Infuses stamina with infernal power, adding 25 units|25|stamina|25
 Arctic Aura|Creates a chilling aura, reducing opponent's stamina by 22 units|-22|attack|-22
 Gelatinous Guardian|Summons a gelatinous guardian to absorb attacks, reducing stamina loss|2|shield|2

@@ -2,8 +2,8 @@
 #define PLAYER_H
 
 #include <iostream>
-#include <vector>
 #include "Candy.h"
+#include <vector>
 
 using namespace std;
 

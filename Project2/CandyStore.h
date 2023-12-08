@@ -2,6 +2,7 @@
 #define CANDYSTORE_H
 
 #include "Board.h"
+#include "Candy.h"
 #include <iostream>
 #include <vector>
 

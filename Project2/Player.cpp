@@ -1,5 +1,6 @@
 #include "Player.h"
 #include "Board.h"
+#include "Candy.h"
 #include "Utilities.h"
 
 Player::Player()
@@ -108,7 +109,7 @@ int Player::getCandyAmount() const {
 Candy Player::findCandy(string name, vector<Candy> candies) {
     int len = candies.size();
     for (int i = 0; i < len; i++) {
-        if (toLowerCase(name) == toLowerCase(candies.at(i).getName())) {
+        if (toLowerCase(name) == toLowerCase(candies.at(i).name)) {
             return candies.at(i);
         }
     }
@@ -125,10 +126,10 @@ void Player::setShield(bool shield) {
 
 void Player::printInventory() {
     int _MAX_CANDY_AMOUNT = _candies.size();
-    Candy printArr[_MAX_CANDY_AMOUNT] = {};
+    vector<Candy> printArr(_MAX_CANDY_AMOUNT);
     int j = 0;
     for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
-        if (_candies[i].getName() != "") {
+        if (_candies[i].name != "") {
             printArr[j] = _candies[i];
             j++;
         }
@@ -140,19 +141,19 @@ void Player::printInventory() {
 
     cout<<"|";
     for (int i = 0; i < _MAX_CANDY_AMOUNT / 2; i++) {
-        if (_candies[i].getName() == "") {
+        if (_candies[i].name == "") {
             cout<<"[Empty]|";
         } else {
-            cout<<"["<<_candies[i].getName()<<"]|";
+            cout<<"["<<_candies[i].name<<"]|";
         }
     }
     cout<<endl;
     cout<<"|";
     for (int i = (_MAX_CANDY_AMOUNT / 2); i < _MAX_CANDY_AMOUNT; i++) {
-        if (_candies[i].getName() == "") {
+        if (_candies[i].name == "") {
             cout<<"[Empty]|";
         } else {
-            cout<<"["<<_candies[i].getName()<<"]|";
+            cout<<"["<<_candies[i].name<<"]|";
         }
     }
     cout<<endl;
@@ -165,7 +166,7 @@ void Player::addCandy(Candy candy) {
 bool Player::removeCandy(string name) {
     int len = _candies.size();
     for (int i = 0; i < len; i++) {
-        if (toLowerCase(_candies[i].getName()) == toLowerCase(name)) {
+        if (toLowerCase(_candies[i].name) == toLowerCase(name)) {
             _candies.erase(_candies.begin() + i);
             return true;
         }

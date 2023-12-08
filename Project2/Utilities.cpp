@@ -3,8 +3,9 @@
 // change string inputted all into lowercase using the tolower() function
 string toLowerCase(string str) {
     string res = "";
+    int len = str.length();
     // iterate through every single character
-    for (int i = 0; i < str.length(); i++) {
+    for (int i = 0; i < len; i++) {
         res += tolower(str[i]);
     }
     return res;

@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include "Player.h"
+#include "Candy.h"
 #include <vector>
 #define RED "\033[;41m"     /* Red */
 #define GREEN "\033[;42m"   /* Green */
@@ -53,6 +54,9 @@ class Board
         bool addCandyStore(int);
         bool isPositionCandyStore(int); 
         int getCandyStorePosition(int) const;
+
+        vector<specialTile> getSpecialTiles() const;
+        vector<specialTile> getTreasureTiles() const;
 
         // all player stuff since vector<Player> _player_position is private in Board which means we need to use getters and setters to access Player stuff
         string getPlayerName(int) const;
