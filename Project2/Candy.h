@@ -5,6 +5,7 @@
 
 using namespace std;
 
+// struct candy should be candy.h because it's used in multiple files
 struct Candy {
     string name;
     string description;

@@ -20,3 +20,4 @@ Gelatinous Guardian|Summons a gelatinous guardian to absorb attacks, reducing st
 Dazzling Dewdrop|Dazzles opponents with a radiant dewdrop, reducing stamina by 12 units|-12|attack|-12
 Viper's Venom|Infuses stamina with venom, adding 12 units|12|stamina|12
 Illusionary Ice|Creates an illusionary ice barrier, reducing opponent's stamina by 15 units|-15|attack|-15
+Gummy Candy|creates a temporary barricade on a tile, causing other players who land on that tile to lose some number of turns (1 or 2)|35|turns|1

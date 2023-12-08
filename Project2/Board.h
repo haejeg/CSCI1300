@@ -83,6 +83,9 @@ class Board
         void printPlayerInventory(int);
 
         // tile stuff
+        void generateTreasureTiles();
+        void generateSpecialTiles(int);
+
         void addSpecialTile(specialTile);
         bool isSpecialTile(int);
         specialTile getSpecialTile(int);

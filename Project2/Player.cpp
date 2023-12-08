@@ -13,6 +13,7 @@ Player::Player()
     _candies = {};
 }
 
+// even though the constructor doesn't have all parameters, it doesn't really matter because shield should be disabled by default anyways
 Player::Player(string name, string character, int position, int gold, int stamina, vector<Candy> candies)
 {
     _name = name;
@@ -24,6 +25,7 @@ Player::Player(string name, string character, int position, int gold, int stamin
     _shield = false;
 }
 
+// getters and setters
 string Player::getName() const
 {
     return _name;
@@ -104,6 +106,14 @@ int Player::getCandyAmount() const {
     return _candies.size();
 }
 
+bool Player::getShield() const {
+    return _shield;
+}
+
+void Player::setShield(bool shield) {
+    _shield = shield;
+}
+
 // findCandy will find the candy in the pre-existing candies vector and will return an object when you search by name
 // if not found, it will return nothing (the game should prevent something like this happening anyways..)
 Candy Player::findCandy(string name, vector<Candy> candies) {
@@ -116,19 +126,21 @@ Candy Player::findCandy(string name, vector<Candy> candies) {
     return Candy{};
 }
 
-bool Player::getShield() const {
-    return _shield;
-}
-
-void Player::setShield(bool shield) {
-    _shield = shield;
-}
-
 void Player::printInventory() {
+    // print inventory in whatever grid the user wants
     int _MAX_CANDY_AMOUNT = _candies.size();
-    vector<Candy> printArr(_MAX_CANDY_AMOUNT);
+    if (getCandyAmount() == 0) { // check for candies
+        cout<<"No candies in inventory."<<endl;
+        return;
+    }
+    if (getCandyAmount() == 1) { // if it's only one just print one element and return (this is because of how the | | are printed in the board)
+        cout<<"|["<<_candies[0].name<<"]|"<<endl;
+        return;
+    }
+
+    vector<Candy> printArr(_MAX_CANDY_AMOUNT); // create a new array to print
     int j = 0;
-    for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
+    for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) { // remove empty candies
         if (_candies[i].name != "") {
             printArr[j] = _candies[i];
             j++;
@@ -138,8 +150,9 @@ void Player::printInventory() {
     for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
         _candies[i] = printArr[i];
     }
-
+    
     cout<<"|";
+    // divide by 2 because we want to print half the max candies on one line and the other half on the next line
     for (int i = 0; i < _MAX_CANDY_AMOUNT / 2; i++) {
         if (_candies[i].name == "") {
             cout<<"[Empty]|";

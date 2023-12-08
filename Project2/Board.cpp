@@ -91,10 +91,6 @@ void Board::displayTile(int position)
     cout << " " << RESET;
 }
 
-void Board::addSpecialTile(specialTile specialTile) {
-    _special_tiles.push_back(specialTile);
-}
-
 void Board::displayBoard()
 {
     //if players are stacked on top of each other, then we need to readjust the board
@@ -124,7 +120,6 @@ void Board::displayBoard()
             overlap = false;
         }
     }
-    cout<<"COUNT: "<<count<<endl;
     if (count > 1) {
         readjustment = (count - 1) * 2 + (_player_position.size() - count) * 2 + 5;
     } else {
@@ -197,10 +192,8 @@ bool Board::setPlayerPosition(int new_position, int playerid)
 {
     if (new_position >= 0 && new_position < _BOARD_SIZE)
     {
-        cout<<"Old position: "<<_player_position.at(playerid).getPosition()<<endl;
         _previous_position.at(playerid).setPosition(_player_position.at(playerid).getPosition());
         _player_position.at(playerid).setPosition(new_position);
-        cout<<"New position: "<<_player_position.at(playerid).getPosition()<<endl;
         return true;
     }
     return false;
@@ -263,11 +256,8 @@ bool Board::addCandyStore(int position)
     {
         return false;
     }
-    cout<<"Candy store added at position "<<position<<endl;
     _candy_store_position[_candy_store_count] = position;
-    cout<<"Candy store position: "<<_candy_store_position[_candy_store_count]<<endl;
     _candy_store_count++;
-    cout<<"Candy store count: "<<_candy_store_count<<endl;
     return true;
 }
 
@@ -310,6 +300,68 @@ void Board::setPlayerShield(int playerid, bool shield) {
 
 void Board::setPlayerCandies(int playerid, vector<Candy> candies) {
     _player_position.at(playerid).setCandies(candies);
+}
+
+// Generate hidden treasures (no class needed because there's nothing to specifically store besides the tile numbers)
+void Board::generateTreasureTiles() { // pass this by reference so that i dont have to return anything (hassle)
+    srand((int) time(0));
+    // iterate it 3 times since there should be 3 hidden treasures across the map
+    for (int i = 0; i < 3; i++) {
+        if (i == 0 || isPositionCandyStore(i) || isSpecialTile(i)) {
+            // make sure it's not on the starting tile, special tile, or candy store
+            int randNum = rand() % 82 + 1;
+            specialTile tempTile;
+            tempTile.index = randNum;
+            tempTile.tile_type = "Treasure";
+            addTreasureTile(tempTile);
+        }
+        int randNum = rand() % 83 + 1;
+        specialTile tempTile;
+        tempTile.index = randNum;
+        tempTile.tile_type = "Treasure";
+        addTreasureTile(tempTile);
+    }
+}
+
+void Board::addSpecialTile(specialTile specialTile) {
+    _special_tiles.push_back(specialTile);
+}
+
+// Create a special tiles (no class needed because there's nothing to specifically store besides the tile numbers)
+void Board::generateSpecialTiles(int percentage) {
+    srand((int) time(0));
+    int count = 0;
+    // for all 83 tiles
+    for (int i = 1; i < 82; i++) {
+        // if random is within percentage
+        if (rand() % 100 <= percentage) {
+            specialTile tempTile;
+            tempTile.index = i;
+            // generate random tile type
+            int randTile = rand() % 4 + 1;
+            switch(randTile) { // because 4 random tiles
+                case 1:
+                    tempTile.tile_type = "shortcut";
+                    break;
+                case 2:
+                    tempTile.tile_type = "icecream";
+                    break;
+                case 3:
+                    tempTile.tile_type = "gumdrop";
+                    break;
+                case 4:
+                    tempTile.tile_type = "gingerbread";
+                    break;
+                //no default needed because it's impossible
+            }
+            // add to special tiles in board object
+            addSpecialTile(tempTile);
+            count++;
+        }
+        if (count > 5) {
+            return;
+        }
+    }
 }
 
 void Board::addCandyToPlayer(int playerid, Candy candy) {

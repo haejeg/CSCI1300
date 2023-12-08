@@ -10,6 +10,7 @@ using namespace std;
 //converts string to lowercase
 string toLowerCase(string);
 
+// cin ignore & clear
 void clearInput();
 
 #endif

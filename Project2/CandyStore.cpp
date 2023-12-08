@@ -59,6 +59,7 @@ void CandyStore::setCandyStorePosition(int position)
 // remove candy from store when bought by user
 bool CandyStore::removeCandy(string name) {
     int lastIdx = 0;
+    // see if candy exists (could be done by find candy but doesn't matter, this is more for a specified use anyways)
     bool res = false;
     for (int i = 0; i < _MAX_CANDY_AMOUNT; i++) {
         if (toLowerCase(_inventory[i].name) == toLowerCase(name)) {
@@ -67,6 +68,7 @@ bool CandyStore::removeCandy(string name) {
         }
     }
 
+    // if res is true rmeove candy
     if (res) {
         _candy_amount--;
         _inventory[lastIdx].name = "";
@@ -88,7 +90,7 @@ Candy CandyStore::findCandy(string name) {
     return Candy{};
 }
 
-// fill candystore with random candies (limited to 9 per store by default)
+// fill candystore with random candies (limited to 3 per store by default)
 bool CandyStore::fillCandy(vector<Candy> candies) {
     srand((int) time(0));
     int candy_count = 3;
