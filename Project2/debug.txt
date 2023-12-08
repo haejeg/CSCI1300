@@ -1,0 +1,16 @@
+Candy stores generated
+Candy store 0 position: 24
+Candy store 1 position: 37
+Candy store 2 position: 56
+Special tiles generated
+Special tile 0 position: 4
+Special tile 1 position: 5
+Special tile 2 position: 8
+Special tile 3 position: 9
+Special tile 4 position: 22
+Special tile 5 position: 25
+Treasure tiles generated
+Treasure tile 0 position: 16
+Treasure tile 1 position: 38
+Treasure tile 2 position: 32
+Treasure tile 3 position: 46

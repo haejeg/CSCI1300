@@ -45,4 +45,6 @@ I made drawing cards more like rolling a dice (like the actual game) rather than
 I made Gummy Candy a whole group rather than only gummy candy being able to effect turns. I also changed how Gummy Candy works in that it'll affect the player, not the tile
 I found this to be more effective in usage and represents how the game should be played better
 
+I also made entering a candystore when landing on it a default and then you just type exit, if you don't want to buy anything
+
 Github for this project: https://github.com/haejeg/CSCI1300/tree/main/Project2

@@ -184,8 +184,8 @@ bool drawCard(Board& board, int playerid, vector<Card>& cards) {
             }
         }
     }
-    cards.push_back(Card{str, 83});
-    board.setPlayerPosition(83, playerid);
+    cards.push_back(Card{str, 82});
+    board.setPlayerPosition(82, playerid);
     
     return true;
 }
@@ -922,7 +922,11 @@ int main() {
     while(!win);
     
     // congratulate winner
-    board.setPlayerPosition(83, winner);
+    cout<<"-------------------------------------"<<endl;
+    cout<<"WINNER!!!"<<endl;
+    cout<<"-------------------------------------"<<endl;
+    board.setPlayerPosition(82, winner);
+    board.getPlayerPosition(winner);
     board.displayBoard();
     cout<<"You've reached the end of the board! Congratulations Player "<<players.at(winner).getName()<<endl;
     

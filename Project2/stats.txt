@@ -1,0 +1,59 @@
+STATS ---------------------------------------
+Player test's stats:0
+Character: test
+Stamina: 43
+Gold: 30
+Candies: | Enchanted Elixir | Venomous Vapor | Amethyst Amulet | Gummy Candy | 
+Player hello's stats:1
+Character: testt
+Stamina: 100
+Gold: 1
+Candies: | Noxious Nectar | Illusionary Ice | Thunderstrike Toffee | 
+======================== ALL CARDS DRAWN BY ALL PLAYERS ========================
+Card number 1: Bubblegum Blue | Position: 2
+Card number 2: Bubblegum Blue | Position: 2
+Card number 3: Minty Green | Position: 4
+Card number 4: Cotton Candy Magenta | Position: 3
+Card number 5: Minty Green | Position: 1
+Card number 6: Double Cotton Candy Magenta | Position: 9
+Card number 7: Double Minty Green | Position: 16
+Card number 8: Minty Green | Position: 1
+Card number 9: Bubblegum Blue | Position: 17
+Card number 10: Cotton Candy Magenta | Position: 3
+Card number 11: Double Cotton Candy Magenta | Position: 21
+Card number 12: Double Cotton Candy Magenta | Position: 9
+Card number 13: Cotton Candy Magenta | Position: 24
+Card number 14: Double Minty Green | Position: 19
+Card number 15: Minty Green | Position: 25
+Card number 16: Minty Green | Position: 28
+Card number 17: Minty Green | Position: 22
+Card number 18: Minty Green | Position: 31
+Card number 19: Bubblegum Blue | Position: 20
+Card number 20: Bubblegum Blue | Position: 32
+Card number 21: Bubblegum Blue | Position: 23
+Card number 22: Double Bubblegum Blue | Position: 38
+Card number 23: Double Bubblegum Blue | Position: 29
+Card number 24: Bubblegum Blue | Position: 41
+Card number 25: Bubblegum Blue | Position: 32
+Card number 26: Bubblegum Blue | Position: 44
+Card number 27: Bubblegum Blue | Position: 35
+Card number 28: Bubblegum Blue | Position: 47
+Card number 29: Cotton Candy Magenta | Position: 36
+Card number 30: Cotton Candy Magenta | Position: 48
+Card number 31: Cotton Candy Magenta | Position: 39
+Card number 32: Double Cotton Candy Magenta | Position: 54
+Card number 33: Double Cotton Candy Magenta | Position: 45
+Card number 34: Double Cotton Candy Magenta | Position: 60
+Card number 35: Double Cotton Candy Magenta | Position: 51
+Card number 36: Double Cotton Candy Magenta | Position: 66
+Card number 37: Double Cotton Candy Magenta | Position: 57
+Card number 38: Double Cotton Candy Magenta | Position: 72
+Card number 39: Minty Green | Position: 58
+Card number 40: Minty Green | Position: 73
+Card number 41: Bubblegum Blue | Position: 59
+Card number 42: Double Bubblegum Blue | Position: 77
+Card number 43: Bubblegum Blue | Position: 62
+Card number 44: Cotton Candy Magenta | Position: 78
+Card number 45: Cotton Candy Magenta | Position: 81
+Card number 46: Double Bubblegum Blue | Position: 68
+Card number 47: Cotton Candy Magenta | Position: 82
